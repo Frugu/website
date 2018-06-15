@@ -12,7 +12,7 @@ Encore
 
     // uncomment to define the assets of the project
     // .addEntry('js/app', './assets/js/app.js')
-    .addStyleEntry('css/app', './node_modules/bulma/bulma.sass')
+    .addStyleEntry('css/app', './assets/scss/app.scss')
 
     // uncomment if you use Sass/SCSS files
     .enableSassLoader()
