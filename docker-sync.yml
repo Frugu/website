@@ -1,0 +1,11 @@
+version: "2"
+
+options:
+  project_root: 'pwd'
+
+syncs:
+  symfony:
+    src: "./"
+    notify_terminal: true
+  database:
+    src: "./.data/db/"

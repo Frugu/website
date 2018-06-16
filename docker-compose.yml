@@ -7,7 +7,7 @@ services:
         ports:
             - 3306:3306
         volumes:
-            - "./.data/db:/var/lib/mysql"
+            - database:/var/lib/mysql:nocopy
         environment:
             MYSQL_ROOT_PASSWORD: root
     redis:
@@ -22,7 +22,7 @@ services:
             - db:mysqldb
             - redis
         volumes:
-            - ./:/var/www/symfony
+            - symfony:/var/www/symfony:nocopy
             - ./var/log/docker/symfony:/var/www/symfony/app/logs
     nginx:
         build: docker/nginx
@@ -34,3 +34,9 @@ services:
             - php
         volumes:
             - ./var/log/docker/nginx/:/var/log/nginx
+
+volumes:
+    database:
+        external: true
+    symfony:
+        external: true

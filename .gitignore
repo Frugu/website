@@ -4,6 +4,7 @@
 
 ###> docker ###
 /.data/
+/.docker-sync/
 ###< docker ###
 
 ###> symfony/framework-bundle ###
