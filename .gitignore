@@ -1,6 +1,10 @@
-###> default ###
+###> jetbrains ###
 /.idea/
-###< default ###
+###< jetbrains ###
+
+###> docker ###
+/.data/
+###< docker ###
 
 ###> symfony/framework-bundle ###
 /.env
