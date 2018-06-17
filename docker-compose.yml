@@ -24,7 +24,7 @@ services:
             - redis
         volumes:
             - symfony:/var/www/symfony:nocopy
-            - ./var/log/docker/symfony:/var/www/symfony/app/logs
+            - ./var/log/docker/symfony:/var/www/symfony/var/log/php-fpm
     nginx:
         build: docker/nginx
         ports:
