@@ -10,6 +10,7 @@ services:
             - database:/var/lib/mysql:nocopy
         environment:
             MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: frugu
     redis:
         image: redis:alpine
         ports:
