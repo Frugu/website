@@ -11,7 +11,34 @@
         <script src="{{ preload(asset('build/fontawesome.js')) }}"></script>
         <script src="{{ preload(asset('build/app.js')) }}"></script>
     </head>
-    <body>
+    <body class="has-navbar-fixed-top">
+        <nav class="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ path('home') }}">
+                    Frugu
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="button is-primary">
+                              <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                              <span>Login with SSO</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
         {% block body %}{% endblock %}
 
         {% block javascripts %}{% endblock %}
