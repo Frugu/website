@@ -6,10 +6,10 @@
 
         <title>{% block title %}Welcome!{% endblock %}</title>
 
-        <link href="{{ asset('build/app.css') }}" rel="stylesheet" />
+        <link href="{{ preload(asset('build/app.css')) }}" rel="stylesheet" />
 
-        <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
-        <script src="{{ asset('build/app.js') }}"></script>
+        <script src="{{ preload(asset('build/fontawesome.js')) }}"></script>
+        <script src="{{ preload(asset('build/app.js')) }}"></script>
     </head>
     <body>
         {% block body %}{% endblock %}
