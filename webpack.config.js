@@ -12,6 +12,7 @@ Encore
     .enableBuildNotifications()
 
     .addEntry('app', './assets/js/app.js')
+    .addEntry('fontawesome', './assets/js/fontawesome.js')
 ;
 
 module.exports = Encore.getWebpackConfig();
