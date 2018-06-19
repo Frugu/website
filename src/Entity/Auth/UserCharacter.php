@@ -18,6 +18,12 @@ class UserCharacter
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Auth\User", inversedBy="characters")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $characterId;
@@ -38,6 +44,25 @@ class UserCharacter
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return UserCharacter
+     */
+    public function setCategory(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Entity\Auth;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,6 +21,11 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Auth\UserCharacter", mappedBy="user", orphanRemoval=true)
+     */
+    private $characters;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     protected $username;
@@ -29,11 +36,27 @@ class User implements UserInterface
     private $slug;
 
     /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->characters = new ArrayCollection();
+    }
+
+    /**
      * @return string
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection|UserCharacter[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->characters;
     }
 
     /**
