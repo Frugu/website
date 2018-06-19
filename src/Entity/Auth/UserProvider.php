@@ -101,6 +101,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function supportsClass($class)
     {
-        return User::class === $class;
+        return (User::class === $class || "Proxies\\__CG__\\App\\Entity\\Auth\\User" === $class);
     }
 }
