@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Auth;
 
-use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User extends OAuthUser
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -20,7 +20,7 @@ class User extends OAuthUser
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    protected $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -38,18 +38,18 @@ class User extends OAuthUser
     /**
      * @return string
      */
-    public function getName(): string
+    public function getUsername(): string
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**
-     * @param string $name
+     * @param string $username
      * @return User
      */
-    public function setName(string $name): self
+    public function setUsername(string $username): self
     {
-        $this->name = $name;
+        $this->username = $username;
 
         return $this;
     }
@@ -71,5 +71,45 @@ class User extends OAuthUser
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoles()
+    {
+        return array('ROLE_USER', 'ROLE_OAUTH_USER');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPassword()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function eraseCredentials()
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function equals(UserInterface $user)
+    {
+        return $user->getUsername() === $this->getUsername();
     }
 }
