@@ -58,7 +58,7 @@ class UserCharacter
      * @param User $user
      * @return UserCharacter
      */
-    public function setCategory(User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
