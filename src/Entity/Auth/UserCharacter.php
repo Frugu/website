@@ -3,6 +3,7 @@
 namespace App\Entity\Auth;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Auth\UserCharacterRepository")
@@ -14,6 +15,8 @@ class UserCharacter
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     *
+     * @var Uuid
      */
     private $id;
 
@@ -39,7 +42,7 @@ class UserCharacter
     private $main;
 
     /**
-     * @return string
+     * @return Uuid
      */
     public function getId()
     {

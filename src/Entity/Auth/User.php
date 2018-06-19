@@ -2,9 +2,11 @@
 
 namespace App\Entity\Auth;
 
+use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -17,13 +19,15 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     *
+     * @var Uuid
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Auth\UserCharacter", mappedBy="user", orphanRemoval=true)
      */
-    private $characters;
+    protected $characters;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -33,18 +37,25 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    protected $slug;
+
+    /**
+     * @var SlugifyInterface
+     */
+    protected $slugify;
 
     /**
      * User constructor.
+     * @param SlugifyInterface $slugify
      */
-    public function __construct()
+    public function __construct(SlugifyInterface $slugify)
     {
+        $this->slugify = $slugify;
         $this->characters = new ArrayCollection();
     }
 
     /**
-     * @return string
+     * @return Uuid
      */
     public function getId()
     {
@@ -75,6 +86,7 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+        $this->setSlug($this->slugify->slugify($username));
 
         return $this;
     }
