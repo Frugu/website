@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User extends OAuthUser
 {
     /**
      * @ORM\Id()
@@ -27,16 +27,26 @@ class User
      */
     private $slug;
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return User
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -44,11 +54,18 @@ class User
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     * @return User
+     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
