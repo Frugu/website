@@ -54,7 +54,7 @@ class User implements UserInterface
     /**
      * @return Collection|UserCharacter[]
      */
-    public function getProducts(): Collection
+    public function getCharacters(): Collection
     {
         return $this->characters;
     }
