@@ -2,6 +2,7 @@
 
 namespace App\Entity\Auth;
 
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
