@@ -14,37 +14,28 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserCharacterRepository extends ServiceEntityRepository
 {
+    /**
+     * UserCharacterRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, UserCharacter::class);
     }
 
-//    /**
-//     * @return UserCharacter[] Returns an array of UserCharacter objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param int $characterId
+     * @return UserCharacter
+     *
+     * @throws
+     */
+    public function findByCharacterId(int $characterId)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?UserCharacter
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('u.characterId = :characterId')
+            ->setParameter('characterId', $characterId)
             ->getQuery()
             ->getOneOrNullResult()
-        ;
+            ;
     }
-    */
 }
