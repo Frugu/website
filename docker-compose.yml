@@ -7,7 +7,7 @@ services:
         ports:
             - 3306:3306
         volumes:
-            - ./.data/db:/var/lib/mysql
+            - ./.data/db:/var/lib/mysql:cached
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: frugu
@@ -23,7 +23,7 @@ services:
             - db:mysqldb
             - redis
         volumes:
-            - ./:/var/www/symfony
+            - ./:/var/www/symfony:cached
             - ./var/log/docker/symfony:/var/www/symfony/var/log/php-fpm
     nginx:
         build: docker/nginx
