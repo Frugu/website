@@ -14,7 +14,7 @@ class UserProvider implements OAuthAwareUserProviderInterface
     {
         $data = $response->getData();
 
-        /**
+        /*
          * array(7) {
          *  ["CharacterID"]=> int(91901482)
          *  ["CharacterName"]=> string(8) "Mealtime"

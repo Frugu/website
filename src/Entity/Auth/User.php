@@ -45,6 +45,7 @@ class User implements UserInterface
 
     /**
      * @param string $username
+     *
      * @return User
      */
     public function setUsername(string $username): self
@@ -64,6 +65,7 @@ class User implements UserInterface
 
     /**
      * @param string $slug
+     *
      * @return User
      */
     public function setSlug(string $slug): self
