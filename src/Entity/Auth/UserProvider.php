@@ -2,11 +2,34 @@
 
 namespace App\Entity\Auth;
 
+use Cocur\Slugify\SlugifyInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 
 class UserProvider implements OAuthAwareUserProviderInterface
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * @var SlugifyInterface
+     */
+    protected $slugify;
+
+    /**
+     * UserProvider constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param SlugifyInterface $slugify
+     */
+    public function __construct(EntityManagerInterface $entityManager, SlugifyInterface $slugify)
+    {
+        $this->entityManager = $entityManager;
+        $this->slugify = $slugify;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -14,18 +37,21 @@ class UserProvider implements OAuthAwareUserProviderInterface
     {
         $data = $response->getData();
 
-        /*
-         * array(7) {
-         *  ["CharacterID"]=> int(91901482)
-         *  ["CharacterName"]=> string(8) "Mealtime"
-         *  ["ExpiresOn"]=> string(19) "2018-06-19T12:36:54"
-         *  ["Scopes"]=> string(0) ""
-         *  ["TokenType"]=> string(9) "Character"
-         *  ["CharacterOwnerHash"]=> string(28) "kejN8pZQwW7QfG7u3PT1xE3zlQk="
-         *  ["IntellectualProperty"]=> string(3) "EVE"
-         * }
-         */
+        $character = new UserCharacter();
+        $character->setCharacterId($data['CharacterID']);
+        $character->setCharacterName($data['CharacterName']);
+        $character->setMain(false);
 
+        $user = new User($this->slugify);
+        $user->setUsername($data['CharacterName']);
+        $character->setUser($user);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->persist($character);
+        $this->entityManager->flush();
+
+        var_dump($user->getId()->toString());
+        var_dump($character->getId()->toString());
         exit;
     }
 }
