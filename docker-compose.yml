@@ -3,14 +3,14 @@ version: '2'
 
 services:
     db:
-        image: mysql
+        image: postgres:latest
         ports:
-            - 3306:3306
+            - 5432:5432
         volumes:
-            - ./.data/db:/var/lib/mysql:cached
+            - ./.data/db:/var/lib/postgresql/data:cached
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: frugu
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
     redis:
         image: redis:alpine
         ports:
@@ -20,7 +20,7 @@ services:
         ports:
             - 9000:9000
         links:
-            - db:mysqldb
+            - db:sqldb
             - redis
         volumes:
             - ./:/var/www/symfony:cached
