@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Auth\User;
 use Twig\Extension\AbstractExtension;
 use Twig_SimpleFunction;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -32,7 +33,12 @@ class LoggedExtension extends AbstractExtension
         );
     }
 
-    protected function getUser()
+    /**
+     * Get current logged User or null
+     *
+     * @return null|User
+     */
+    public function getUser()
     {
         if (null === $token = $this->tokenStorage->getToken()) {
             return null;
