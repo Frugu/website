@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Entity\Auth;
 
 use Cocur\Slugify\SlugifyInterface;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
@@ -104,6 +105,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function supportsClass($class)
     {
-        return User::class === $class || 'Proxies\\__CG__\\App\\Entity\\Auth\\User' === $class;
+        return User::class === ClassUtils::getRealClass($class);
     }
 }
