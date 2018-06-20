@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
+ * @ORM\Table(name="t_user_character")
  * @ORM\Entity(repositoryClass="App\Repository\Auth\UserCharacterRepository")
  */
 class UserCharacter

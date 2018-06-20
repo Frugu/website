@@ -12,6 +12,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ORM\Table(name="t_user")
  * @ORM\Entity(repositoryClass="App\Repository\Auth\UserRepository")
  */
 class User implements UserInterface
