@@ -16,6 +16,7 @@ class LoggedExtension extends AbstractExtension
 
     /**
      * LoggedExtension constructor.
+     *
      * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(TokenStorageInterface $tokenStorage)
@@ -29,12 +30,12 @@ class LoggedExtension extends AbstractExtension
     public function getFunctions()
     {
         return array(
-            new Twig_SimpleFunction('getUser', array($this, 'getUser'))
+            new Twig_SimpleFunction('getUser', array($this, 'getUser')),
         );
     }
 
     /**
-     * Get current logged User or null
+     * Get current logged User or null.
      *
      * @return null|User
      */
