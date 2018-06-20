@@ -22,20 +22,4 @@ class UserCharacterRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserCharacter::class);
     }
-
-    /**
-     * @param int $characterId
-     * @return UserCharacter
-     *
-     * @throws
-     */
-    public function findByCharacterId(int $characterId)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.characterId = :characterId')
-            ->setParameter('characterId', $characterId)
-            ->getQuery()
-            ->getOneOrNullResult()
-            ;
-    }
 }
