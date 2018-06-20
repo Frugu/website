@@ -16,6 +16,7 @@ class UserCharacterRepository extends ServiceEntityRepository
 {
     /**
      * UserCharacterRepository constructor.
+     *
      * @param RegistryInterface $registry
      */
     public function __construct(RegistryInterface $registry)

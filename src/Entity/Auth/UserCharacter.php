@@ -59,6 +59,7 @@ class UserCharacter
 
     /**
      * @param User $user
+     *
      * @return UserCharacter
      */
     public function setUser(User $user): self
@@ -78,6 +79,7 @@ class UserCharacter
 
     /**
      * @param int $characterId
+     *
      * @return UserCharacter
      */
     public function setCharacterId(int $characterId): self
@@ -97,6 +99,7 @@ class UserCharacter
 
     /**
      * @param string $characterName
+     *
      * @return UserCharacter
      */
     public function setCharacterName(string $characterName): self
@@ -116,6 +119,7 @@ class UserCharacter
 
     /**
      * @param bool $main
+     *
      * @return UserCharacter
      */
     public function setMain(bool $main): self

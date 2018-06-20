@@ -2,7 +2,6 @@
 
 namespace App\Entity\Auth;
 
-use App\Repository\Auth\UserCharacterRepository;
 use Cocur\Slugify\SlugifyInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
@@ -26,8 +25,9 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
     /**
      * UserProvider constructor.
+     *
      * @param EntityManagerInterface $entityManager
-     * @param SlugifyInterface $slugify
+     * @param SlugifyInterface       $slugify
      */
     public function __construct(EntityManagerInterface $entityManager, SlugifyInterface $slugify)
     {
@@ -43,7 +43,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $userRepository = $this->entityManager->getRepository(User::class);
 
         $user = $userRepository->findOneBy(['username' => $username]);
-        if($user === null) {
+        if (null === $user) {
             throw new UsernameNotFoundException(sprintf('User not found "%s"', $username));
         }
 
@@ -58,14 +58,14 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $userCharacterRepository = $this->entityManager->getRepository(UserCharacter::class);
 
         $data = $response->getData();
-        if($data === null || (!isset($data['CharacterID']) && !isset($data['CharacterName']))) {
+        if (null === $data || (!isset($data['CharacterID']) && !isset($data['CharacterName']))) {
             throw new UsernameNotFoundException(sprintf('User not found "%s"', json_encode($data)));
         }
 
         $user = null;
         $userCharacter = $userCharacterRepository->findOneBy(['characterId' => $data['CharacterID']]);
 
-        if($userCharacter === null) {
+        if (null === $userCharacter) {
             $userCharacter = new UserCharacter();
             $userCharacter->setCharacterId($data['CharacterID']);
             $userCharacter->setCharacterName($data['CharacterName']);
@@ -102,6 +102,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function supportsClass($class)
     {
-        return (User::class === $class || "Proxies\\__CG__\\App\\Entity\\Auth\\User" === $class);
+        return User::class === $class || 'Proxies\\__CG__\\App\\Entity\\Auth\\User' === $class;
     }
 }

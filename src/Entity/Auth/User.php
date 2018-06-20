@@ -46,6 +46,7 @@ class User implements UserInterface
 
     /**
      * User constructor.
+     *
      * @param SlugifyInterface $slugify
      */
     public function __construct(SlugifyInterface $slugify)
