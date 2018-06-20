@@ -25,21 +25,14 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     protected $slugify;
 
     /**
-     * @var UserCharacterRepository
-     */
-    protected $userCharacterRepository;
-
-    /**
      * UserProvider constructor.
      * @param EntityManagerInterface $entityManager
      * @param SlugifyInterface $slugify
-     * @param UserCharacterRepository $userCharacterRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, SlugifyInterface $slugify, UserCharacterRepository $userCharacterRepository)
+    public function __construct(EntityManagerInterface $entityManager, SlugifyInterface $slugify)
     {
         $this->entityManager = $entityManager;
         $this->slugify = $slugify;
-        $this->userCharacterRepository = $userCharacterRepository;
     }
 
     /**
@@ -47,14 +40,15 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function loadUserByUsername($data)
     {
-        $data = json_decode($data, true);
+        $userCharacterRepository = $this->entityManager->getRepository(UserCharacter::class);
 
+        $data = json_decode($data, true);
         if($data === null) {
             throw new UsernameNotFoundException(sprintf('User not found "%s"', $data));
         }
 
         $user = null;
-        $userCharacter = $this->userCharacterRepository->findByCharacterId($data['CharacterID']);
+        $userCharacter = $userCharacterRepository->findByCharacterId($data['CharacterID']);
 
         if($userCharacter === null) {
             $userCharacter = new UserCharacter();
