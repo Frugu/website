@@ -38,17 +38,32 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($data)
+    public function loadUserByUsername($username)
+    {
+        $userRepository = $this->entityManager->getRepository(User::class);
+
+        $user = $userRepository->findOneBy(['username' => $username]);
+        if($user === null) {
+            throw new UsernameNotFoundException(sprintf('User not found "%s"', $username));
+        }
+
+        return $user;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         $userCharacterRepository = $this->entityManager->getRepository(UserCharacter::class);
 
-        $data = json_decode($data, true);
-        if($data === null) {
-            throw new UsernameNotFoundException(sprintf('User not found "%s"', $data));
+        $data = $response->getData();
+        if($data === null || (!isset($data['CharacterID']) && !isset($data['CharacterName']))) {
+            throw new UsernameNotFoundException(sprintf('User not found "%s"', json_encode($data)));
         }
 
         $user = null;
-        $userCharacter = $userCharacterRepository->findByCharacterId($data['CharacterID']);
+        $userCharacter = $userCharacterRepository->findOneBy(['characterId' => $data['CharacterID']]);
 
         if($userCharacter === null) {
             $userCharacter = new UserCharacter();
@@ -68,14 +83,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         }
 
         return $user;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response)
-    {
-        return $this->loadUserByUsername(json_encode($response->getData()));
     }
 
     /**
