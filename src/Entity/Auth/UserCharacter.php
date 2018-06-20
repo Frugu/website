@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace App\Entity\Auth;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="t_user_character")
@@ -17,9 +17,9 @@ class UserCharacter
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\Column(type="uuid", unique=true)
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidOrderedTimeGenerator")
      *
-     * @var Uuid
+     * @var UuidInterface
      */
     private $id;
 
