@@ -2,7 +2,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         frugu_user:
-            id: oauth_aware.user_provider
+            id: app.auth.user_provider
 
     firewalls:
         secured_area:
