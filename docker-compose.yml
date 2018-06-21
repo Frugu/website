@@ -7,7 +7,7 @@ services:
         ports:
             - 5432:5432
         volumes:
-            - ./.data/db:/var/lib/postgresql/data:cached
+            - ./.data/db:/var/lib/postgresql/data:rw,delegated
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: root
@@ -23,7 +23,7 @@ services:
             - db:sqldb
             - redis
         volumes:
-            - ./:/var/www/symfony:cached
+            - ./:/var/www/symfony:rw,delegated
             - ./var/log/docker/symfony:/var/www/symfony/var/log/php-fpm
     nginx:
         build: docker/nginx
