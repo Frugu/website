@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity\Auth;
 
 use App\Factory\Auth\UserFactory;
+use App\Repository\Auth\UserCharacterRepository;
+use App\Repository\Auth\UserRepository;
 use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,18 +20,25 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 final class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
     /**
-     * @var EntityManagerInterface
+     * @var UserRepository
      */
-    protected $entityManager;
+    protected $userRepository;
+
+    /**
+     * @var UserCharacterRepository
+     */
+    protected $userCharacterRepository;
 
     /**
      * UserProvider constructor.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param UserCharacterRepository $userCharacterRepository
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(UserRepository $userRepository, UserCharacterRepository $userCharacterRepository)
     {
-        $this->entityManager = $entityManager;
+        $this->userRepository = $userRepository;
+        $this->userCharacterRepository = $userCharacterRepository;
     }
 
     /**
@@ -37,9 +46,7 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
      */
     public function loadUserByUsername($username)
     {
-        $userRepository = $this->entityManager->getRepository(User::class);
-
-        $user = $userRepository->findOneBy(['username' => $username]);
+        $user = $this->userRepository->findOneBy(['username' => $username]);
         if (null === $user) {
             throw new UsernameNotFoundException(sprintf('User not found "%s"', $username));
         }
@@ -52,15 +59,13 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        $userCharacterRepository = $this->entityManager->getRepository(UserCharacter::class);
-
         $data = $response->getData();
         if (null === $data || (!isset($data['CharacterID']) && !isset($data['CharacterName']))) {
             throw new UsernameNotFoundException(sprintf('User not found "%s"', json_encode($data)));
         }
 
         $user = null;
-        $userCharacter = $userCharacterRepository->findOneBy(['characterId' => $data['CharacterID']]);
+        $userCharacter = $this->userCharacterRepository->findOneBy(['characterId' => $data['CharacterID']]);
 
         if (null === $userCharacter) {
             $userCharacter = new UserCharacter();
@@ -69,10 +74,8 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
             $userCharacter->setMain(false);
 
             $user = UserFactory::createFromCharacter($userCharacter);
-
-            $this->entityManager->persist($user);
-            $this->entityManager->persist($userCharacter);
-            $this->entityManager->flush();
+            $this->userRepository->save($user);
+            $this->userCharacterRepository->save($userCharacter);
         } else {
             $user = $userCharacter->getUser();
         }
