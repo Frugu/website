@@ -17,4 +17,5 @@ return [
     Http\HttplugBundle\HttplugBundle::class => ['all' => true],
     HWI\Bundle\OAuthBundle\HWIOAuthBundle::class => ['all' => true],
     Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle::class => ['all' => true],
+    EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
 ];
