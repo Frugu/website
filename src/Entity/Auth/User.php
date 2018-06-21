@@ -79,7 +79,7 @@ class User implements UserInterface
     }
 
     /**
-     * Used for EasyAdmin references
+     * Used for EasyAdmin references.
      *
      * @return string
      */
@@ -147,7 +147,7 @@ class User implements UserInterface
     {
         $roles = array('ROLE_USER', 'ROLE_OAUTH_USER');
 
-        if($this->isAdmin()) {
+        if ($this->isAdmin()) {
             $roles[] = 'ROLE_ADMIN';
         }
 
