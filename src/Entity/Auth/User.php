@@ -44,7 +44,7 @@ final class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isAdmin = false;
+    protected $isAdmin = false;
 
     /**
      * User constructor.
@@ -106,6 +106,26 @@ final class User implements UserInterface
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @param bool $isAdmin
+     *
+     * @return User
+     */
+    public function setIsAdmin(bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
 
         return $this;
     }
