@@ -79,6 +79,16 @@ class User implements UserInterface
     }
 
     /**
+     * Used for EasyAdmin references
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return 'User "'.$this->getUsername().'"';
+    }
+
+    /**
      * @param string $username
      *
      * @return User
