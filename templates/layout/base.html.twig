@@ -14,7 +14,7 @@
     <body class="has-navbar-fixed-top">
         <nav class="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="{{ path('home') }}">
+                <a class="navbar-item" href="{{ url('home') }}">
                     Frugu
                 </a>
 
@@ -25,18 +25,20 @@
                 </a>
             </div>
 
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="field is-grouped">
-                        <p class="control">
-                            <a class="button is-primary">
-                              <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
-                              <span>Login with SSO</span>
-                            </a>
-                        </p>
+            {% if not app.user %}
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a class="button is-primary" href="{{ url('hwi_oauth_service_redirect', {'service': 'eve_online'}) }}">
+                                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                                    <span>Login with SSO</span>
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </nav>
 
         <div class="container">
