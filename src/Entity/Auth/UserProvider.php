@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
+final class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
     /**
      * @var EntityManagerInterface
