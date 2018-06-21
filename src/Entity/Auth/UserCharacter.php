@@ -10,6 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Table(name="t_user_character")
  * @ORM\Entity(repositoryClass="App\Repository\Auth\UserCharacterRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class UserCharacter
 {
@@ -43,6 +44,31 @@ class UserCharacter
      * @ORM\Column(type="boolean")
      */
     private $main;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    protected $updatedAt;
+
+    /**
+     * UserCharacter constructor.
+     */
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        if ($this->getUpdatedAt() === null) {
+            $this->setUpdatedAt(new \DateTime());
+        }
+    }
 
     /**
      * @return UuidInterface
@@ -130,5 +156,53 @@ class UserCharacter
         $this->main = $main;
 
         return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt(\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return null|\DateTime
+     */
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt(\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime() {
+        $this->setUpdatedAt(new \DateTime());
     }
 }
