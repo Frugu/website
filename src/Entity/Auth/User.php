@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Table(name="t_user")
  * @ORM\Entity(repositoryClass="App\Repository\Auth\UserRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
@@ -47,11 +48,30 @@ class User implements UserInterface
     protected $isAdmin = false;
 
     /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    protected $updatedAt;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->characters = new ArrayCollection();
+
+        $this->setCreatedAt(new \DateTime());
+        if (null === $this->getUpdatedAt()) {
+            $this->setUpdatedAt(new \DateTime());
+        }
     }
 
     /**
@@ -155,6 +175,46 @@ class User implements UserInterface
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt(\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return null|\DateTime
+     */
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt(\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getPassword()
@@ -184,5 +244,14 @@ class User implements UserInterface
     public function equals(UserInterface $user)
     {
         return $user->getUsername() === $this->getUsername();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }
