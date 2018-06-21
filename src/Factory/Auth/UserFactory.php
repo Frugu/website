@@ -11,9 +11,10 @@ use Cocur\Slugify\Slugify;
 class UserFactory
 {
     /**
-     * Create an User based on UserCharacter details
+     * Create an User based on UserCharacter details.
      *
      * @param UserCharacter $userCharacter
+     *
      * @return User
      */
     public static function createFromCharacter(UserCharacter &$userCharacter): User

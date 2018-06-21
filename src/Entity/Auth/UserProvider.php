@@ -7,9 +7,7 @@ namespace App\Entity\Auth;
 use App\Factory\Auth\UserFactory;
 use App\Repository\Auth\UserCharacterRepository;
 use App\Repository\Auth\UserRepository;
-use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -32,7 +30,7 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
     /**
      * UserProvider constructor.
      *
-     * @param UserRepository $userRepository
+     * @param UserRepository          $userRepository
      * @param UserCharacterRepository $userCharacterRepository
      */
     public function __construct(UserRepository $userRepository, UserCharacterRepository $userCharacterRepository)
