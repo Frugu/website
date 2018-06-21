@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository\Auth;
 
 use App\Entity\Auth\UserCharacter;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Repository\AbstractRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method UserCharacter[]    findAll()
  * @method UserCharacter[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserCharacterRepository extends ServiceEntityRepository
+class UserCharacterRepository extends AbstractRepository
 {
     /**
      * UserCharacterRepository constructor.
