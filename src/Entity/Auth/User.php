@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Auth;
 
-use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,23 +42,15 @@ final class User implements UserInterface
     protected $slug;
 
     /**
-     * @var SlugifyInterface
-     */
-    protected $slugify;
-
-    /**
      * User constructor.
-     *
-     * @param SlugifyInterface $slugify
      */
-    public function __construct(SlugifyInterface $slugify)
+    public function __construct()
     {
-        $this->slugify = $slugify;
         $this->characters = new ArrayCollection();
     }
 
     /**
-     * @return Uuid
+     * @return UuidInterface
      */
     public function getId()
     {
@@ -90,7 +81,6 @@ final class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
-        $this->setSlug($this->slugify->slugify($username));
 
         return $this;
     }
