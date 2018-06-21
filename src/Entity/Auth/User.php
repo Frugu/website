@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="t_user")
  * @ORM\Entity(repositoryClass="App\Repository\Auth\UserRepository")
  */
-final class User implements UserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -34,12 +34,17 @@ final class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $username;
+    protected $username = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $slug;
+    protected $slug = '';
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $isAdmin = false;
 
     /**
      * User constructor.
@@ -71,6 +76,16 @@ final class User implements UserInterface
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    /**
+     * Used for EasyAdmin references.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return 'User "'.$this->getUsername().'"';
     }
 
     /**
@@ -106,11 +121,37 @@ final class User implements UserInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @param bool $isAdmin
+     *
+     * @return User
+     */
+    public function setIsAdmin(bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getRoles()
     {
-        return array('ROLE_USER', 'ROLE_OAUTH_USER');
+        $roles = array('ROLE_USER', 'ROLE_OAUTH_USER');
+
+        if ($this->isAdmin()) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        return $roles;
     }
 
     /**
