@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method UserCharacter|null findOneBy(array $criteria, array $orderBy = null)
  * @method UserCharacter[]    findAll()
  * @method UserCharacter[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method void               save(UserCharacter $object)
  */
 class UserCharacterRepository extends AbstractRepository
 {
