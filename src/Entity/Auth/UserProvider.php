@@ -23,20 +23,13 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
     protected $entityManager;
 
     /**
-     * @var SlugifyInterface
-     */
-    protected $slugify;
-
-    /**
      * UserProvider constructor.
      *
      * @param EntityManagerInterface $entityManager
-     * @param SlugifyInterface       $slugify
      */
-    public function __construct(EntityManagerInterface $entityManager, SlugifyInterface $slugify)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->slugify = $slugify;
     }
 
     /**
