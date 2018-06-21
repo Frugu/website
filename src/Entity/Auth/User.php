@@ -34,12 +34,17 @@ final class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $username;
+    protected $username = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $slug;
+    protected $slug = '';
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAdmin = false;
 
     /**
      * User constructor.
