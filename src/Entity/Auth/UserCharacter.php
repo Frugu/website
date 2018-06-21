@@ -45,7 +45,7 @@ class UserCharacter
     private $main;
 
     /**
-     * @return Uuid
+     * @return UuidInterface
      */
     public function getId()
     {
