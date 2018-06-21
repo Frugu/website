@@ -65,7 +65,7 @@ class UserCharacter
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-        if ($this->getUpdatedAt() === null) {
+        if (null === $this->getUpdatedAt()) {
             $this->setUpdatedAt(new \DateTime());
         }
     }
@@ -202,7 +202,8 @@ class UserCharacter
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function updateModifiedDatetime() {
+    public function updateModifiedDatetime()
+    {
         $this->setUpdatedAt(new \DateTime());
     }
 }

@@ -13,11 +13,11 @@ class UserFixtures extends Fixture
     {
         $characters = [
             91901482 => 'Mealtime',
-            93577264 => 'Sandy Stackhouse'
+            93577264 => 'Sandy Stackhouse',
         ];
 
         $admins = [
-            91901482
+            91901482,
         ];
 
         foreach ($characters as $characterId => $characterName) {
@@ -27,7 +27,7 @@ class UserFixtures extends Fixture
             $userCharacter->setMain(true);
             $user = UserFactory::createFromCharacter($userCharacter);
 
-            if(in_array($characterId, $admins)) {
+            if (in_array($characterId, $admins)) {
                 $user->setIsAdmin(true);
             }
 

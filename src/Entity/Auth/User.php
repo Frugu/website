@@ -69,7 +69,7 @@ class User implements UserInterface
         $this->characters = new ArrayCollection();
 
         $this->setCreatedAt(new \DateTime());
-        if ($this->getUpdatedAt() === null) {
+        if (null === $this->getUpdatedAt()) {
             $this->setUpdatedAt(new \DateTime());
         }
     }
@@ -250,7 +250,8 @@ class User implements UserInterface
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function updateModifiedDatetime() {
+    public function updateModifiedDatetime()
+    {
         $this->setUpdatedAt(new \DateTime());
     }
 }
