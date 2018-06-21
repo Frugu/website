@@ -15,6 +15,8 @@ easy_admin:
                 fields:
                     - 'username'
                     - { property: 'isAdmin', label: 'Admin role', sortable: false }
+                    - { property: 'createdAt', label: 'Created At'}
+                    - { property: 'updatedAt', label: 'Last Update'}
 
         UserCharacter:
             label: 'Characters'
@@ -26,3 +28,5 @@ easy_admin:
                     - { property: 'characterName', label: 'EvE Character Name' }
                     - { property: 'main', label: 'Main Character', sortable: false }
                     - { property: 'user', label: 'Linked User' }
+                    - { property: 'createdAt', label: 'Created At'}
+                    - { property: 'updatedAt', label: 'Last Update'}
