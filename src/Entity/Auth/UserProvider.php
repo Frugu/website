@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Auth;
 
+use App\Factory\Auth\UserFactory;
 use Cocur\Slugify\SlugifyInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -74,9 +75,7 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
             $userCharacter->setCharacterName($data['CharacterName']);
             $userCharacter->setMain(false);
 
-            $user = new User($this->slugify);
-            $user->setUsername($data['CharacterName']);
-            $userCharacter->setUser($user);
+            $user = UserFactory::createFromCharacter($userCharacter);
 
             $this->entityManager->persist($user);
             $this->entityManager->persist($userCharacter);
