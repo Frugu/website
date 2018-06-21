@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="t_user")
  * @ORM\Entity(repositoryClass="App\Repository\Auth\UserRepository")
  */
-final class User implements UserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
