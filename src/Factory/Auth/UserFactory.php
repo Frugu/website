@@ -23,17 +23,9 @@ class UserFactory
 
         $user = new User();
         $user->setUsername($characterName);
-        $user->setSlug(self::getSlugify()->slugify($characterName));
+        $user->setSlug((new Slugify())->slugify($characterName));
         $userCharacter->setUser($user);
 
         return $user;
-    }
-
-    /**
-     * @return Slugify
-     */
-    protected static function getSlugify(): Slugify
-    {
-        return new Slugify();
     }
 }
