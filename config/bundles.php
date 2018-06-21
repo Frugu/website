@@ -18,4 +18,5 @@ return [
     HWI\Bundle\OAuthBundle\HWIOAuthBundle::class => ['all' => true],
     Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
 ];
