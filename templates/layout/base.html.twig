@@ -38,16 +38,25 @@
                         </div>
                     </div>
                 </div>
-            {% elseif is_granted('ROLE_ADMIN') == true %}
+            {% endif %}
+            {% if is_granted('ROLE_USER') == true %}
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="field is-grouped">
                             <p class="control">
-                                <a class="button is-danger" href="{{ url('admin') }}">
-                                    <span class="icon"><i class="fas fa-cogs"></i></span>
-                                    <span>Admin</span>
+                                <a class="button is-primary" href="{{ url('account') }}">
+                                    <span class="icon"><i class="fas fa-user"></i></span>
+                                    <span>Account</span>
                                 </a>
                             </p>
+                            {% if is_granted('ROLE_ADMIN') == true %}
+                                <p class="control">
+                                    <a class="button is-danger" href="{{ url('admin') }}">
+                                        <span class="icon"><i class="fas fa-cogs"></i></span>
+                                        <span>Admin</span>
+                                    </a>
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
