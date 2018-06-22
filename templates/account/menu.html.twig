@@ -1,0 +1,13 @@
+<aside class="menu">
+    <p class="menu-label">
+        General
+    </p>
+    <ul class="menu-list">
+        <li>
+            <a{% if general_settings_active is defined and general_settings_active == true %} class="is-active"{% endif %}>Settings</a>
+        </li>
+        <li>
+            <a{% if general_characters_active is defined and general_characters_active == true %} class="is-active"{% endif %}>Characters</a>
+        </li>
+    </ul>
+</aside>

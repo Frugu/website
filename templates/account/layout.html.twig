@@ -1,0 +1,12 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block body %}
+    <div class="columns">
+        <div class="column is-2">
+            {% include 'account/menu.html.twig' %}
+        </div>
+        <div class="column">
+            {% block account_body %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
