@@ -3,5 +3,7 @@
 {% set general_settings_active = true %}
 
 {% block account_body %}
-    Account - Index
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}
