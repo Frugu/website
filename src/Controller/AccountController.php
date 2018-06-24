@@ -20,13 +20,13 @@ class AccountController extends Controller
             'username',
             TextType::class,
             [
-                'help' => 'My Help Message'
+                'help' => 'My Help Message',
             ]
         );
         $formBuilder->add('update', SubmitType::class);
 
         return $this->render('account/index.html.twig', [
-            'form' => $formBuilder->getForm()->createView()
+            'form' => $formBuilder->getForm()->createView(),
         ]);
     }
 }
