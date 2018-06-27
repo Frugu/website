@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Form\UserType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -14,19 +13,10 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $user = $this->getUser();
-        $formBuilder = $this->createFormBuilder($user);
-        $formBuilder->add(
-            'username',
-            TextType::class,
-            [
-                'help' => 'My Help Message',
-            ]
-        );
-        $formBuilder->add('update', SubmitType::class);
+        $form = $this->createForm(UserType::class, $this->getUser());
 
         return $this->render('account/index.html.twig', [
-            'form' => $formBuilder->getForm()->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }
