@@ -14,59 +14,41 @@
 
         <script src="{{ preload(asset('build/app.js')) }}"></script>
     </head>
-    <body class="has-navbar-fixed-top">
-        <nav class="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{{ url('home') }}">
-                    Frugu
-                </a>
-
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-
-            {% if not app.user %}
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="field is-grouped">
-                            <p class="control">
-                                <a class="button is-primary" href="{{ url('hwi_oauth_service_redirect', {'service': 'eve_online'}) }}">
-                                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
-                                    <span>Login with SSO</span>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            {% if is_granted('ROLE_USER') == true %}
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="field is-grouped">
-                            <p class="control">
-                                <a class="button is-primary" href="{{ url('account') }}">
-                                    <span class="icon"><i class="fas fa-user"></i></span>
-                                    <span>Account</span>
-                                </a>
-                            </p>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" role="navigation" aria-label="main navigation">
+            <a class="navbar-brand mb-0 h1  " href="{{ url('home') }}">Frugu</a>
+            <ul class="navbar-nav ml-md-auto">
+                {% if not app.user %}
+                    <li>
+                        <a class="nav-link" href="{{ url('hwi_oauth_service_redirect', {'service': 'eve_online'}) }}" role="link">
+                            Login with SSO
+                        </a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') == true %}
+                    <li class="nav-item">
+                        <div class="btn-group">
+                            <a class="nav-link" href="{{ url('account') }}" role="link">
+                                <i class="fas fa-user"></i>
+                                Account
+                            </a>
                             {% if is_granted('ROLE_ADMIN') == true %}
-                                <p class="control">
-                                    <a class="button is-danger" href="{{ url('admin') }}">
-                                        <span class="icon"><i class="fas fa-cogs"></i></span>
-                                        <span>Admin</span>
-                                    </a>
-                                </p>
+                                <a class="nav-link" href="{{ url('admin') }}" role="link">
+                                    <i class="fas fa-cogs"></i>
+                                </a>
                             {% endif %}
                         </div>
-                    </div>
-                </div>
-            {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('account') }}" role="link">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </nav>
 
-        <div class="container" style="margin-top: 10px;">
+        <div class="container">
             {% block body %}{% endblock %}
         </div>
 
