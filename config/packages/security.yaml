@@ -17,6 +17,9 @@ security:
                 oauth_user_provider:
                     service: app.auth.user_provider
 
+            logout:
+                path:   /logout
+                target: /
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

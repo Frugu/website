@@ -15,3 +15,6 @@ hwi_oauth_login:
 
 eve_online_login:
     path: /login/eve-online
+
+logout:
+    path: /logout
