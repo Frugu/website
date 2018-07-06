@@ -10,15 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AccountController extends Controller
 {
     /**
      * @Route("/account", name="account")
      *
-     * @param Request $request
+     * @param Request        $request
      * @param UserRepository $userRepository
+     *
      * @return Response
      *
      * @throws UnsupportedClassException

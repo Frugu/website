@@ -16,7 +16,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'help' => 'This is the name used in the forum.'
+                'help' => 'This is the name used in the forum.',
             ])
             ->add('update', SubmitType::class);
     }
