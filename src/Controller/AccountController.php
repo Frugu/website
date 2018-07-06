@@ -46,7 +46,12 @@ class AccountController extends Controller
      */
     public function characters()
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        $characters = $user->getCharacters();
 
-        return $this->render('account/characters.html.twig');
+        return $this->render('account/characters.html.twig', [
+            'characters' => $characters
+        ]);
     }
 }

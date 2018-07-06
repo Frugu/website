@@ -3,5 +3,31 @@
 {% set account_characters_active = true %}
 
 {% block account_body %}
-    characters
+    <div class="row">
+        {% for character in characters %}
+            <div class="card ml-2" style="width: 18rem;">
+                <img class="card-img-top" src="https://image.eveonline.com/Character/{{ character.getCharacterId }}_256.jpg" alt="Character image">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ character.getCharacterName }}
+                        {% if character.isMain %}
+                            <span class="badge badge-primary">Main</span>
+                        {% endif %}
+                    </h5>
+                    {% if not character.isMain %}
+                        <a href="#" class="btn btn-primary">Set as main</a>
+                        <a href="#" class="btn btn-danger">Remove</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="card ml-2" style="width: 18rem;">
+            <div class="card-body text-center">
+                <a href="#" class="btn btn-success" style="margin-top: 30%;">
+                    <i class="fas fa-plus-circle"></i>
+                </a>
+                <div class="mt-2">Add a new character</div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
