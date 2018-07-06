@@ -23,7 +23,7 @@ class AccountController extends Controller
      *
      * @throws UnsupportedClassException
      */
-    public function index(Request $request, UserRepository $userRepository)
+    public function account(Request $request, UserRepository $userRepository)
     {
         $form = $this->createForm(UserType::class, $this->getUser());
         $form->handleRequest($request);
@@ -36,8 +36,17 @@ class AccountController extends Controller
             $this->addFlash('success', 'Account updated.');
         }
 
-        return $this->render('account/index.html.twig', [
+        return $this->render('account/account.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/account/characters", name="account_characters")
+     */
+    public function characters()
+    {
+
+        return $this->render('account/characters.html.twig');
     }
 }

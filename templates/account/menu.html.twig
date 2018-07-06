@@ -1,4 +1,4 @@
 <aside class="menu nav nav-pills" role="tablist" aria-orientation="vertical">
-    <a class="nav-link active" href="#" aria-selected="true">Account</a>
-    <a class="nav-link" href="#" aria-selected="false">Characters</a>
+    <a class="nav-link{% if account_account_active is defined and account_account_active %} active{% endif %}" href="{{ url('account') }}" aria-selected="true">Account</a>
+    <a class="nav-link{% if account_characters_active is defined and account_characters_active %} active{% endif %}" href="{{ url('account_characters') }}" aria-selected="false">Characters</a>
 </aside>
