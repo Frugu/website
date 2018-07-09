@@ -51,7 +51,7 @@ class AccountController extends Controller
         $characters = $user->getCharacters();
 
         return $this->render('account/characters.html.twig', [
-            'characters' => $characters
+            'characters' => $characters,
         ]);
     }
 }
