@@ -1,0 +1,9 @@
+{% extends 'account/layout.html.twig' %}
+
+{% set account_account_active = true %}
+
+{% block account_body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

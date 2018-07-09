@@ -6,55 +6,51 @@
 
         <title>{% block title %}{% endblock %} Frugu</title>
 
-        <link href="{{ preload(asset('build/app.css')) }}" rel="stylesheet" />
-
+        <script src="{{ preload("https://code.jquery.com/jquery-3.3.1.slim.min.js") }}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="{{ preload("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js") }}" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{{ preload("https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css") }}" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <script src="{{ preload("https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js") }}" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
         <script src="{{ preload(asset('build/fontawesome.js')) }}"></script>
+
         <script src="{{ preload(asset('build/app.js')) }}"></script>
     </head>
-    <body class="has-navbar-fixed-top">
-        <nav class="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{{ url('home') }}">
-                    Frugu
-                </a>
-
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-
-            {% if not app.user %}
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="field is-grouped">
-                            <p class="control">
-                                <a class="button is-primary" href="{{ url('hwi_oauth_service_redirect', {'service': 'eve_online'}) }}">
-                                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
-                                    <span>Login with SSO</span>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" aria-label="main navigation">
+            <a class="navbar-brand mb-0 h1  " href="{{ url('home') }}">Frugu</a>
+            <ul class="navbar-nav ml-md-auto">
+                {% if not app.user %}
+                    <li>
+                        <a class="nav-link" href="{{ url('hwi_oauth_service_redirect', {'service': 'eve_online'}) }}" role="link">
+                            Login with SSO
+                        </a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') == true %}
+                    <li class="nav-item">
+                        <div class="btn-group">
+                            <a class="nav-link" href="{{ url('account') }}" role="link">
+                                <i class="fas fa-user"></i>
+                                Account
+                            </a>
+                            {% if is_granted('ROLE_ADMIN') == true %}
+                                <a class="nav-link" href="{{ url('admin') }}" role="link">
+                                    <i class="fas fa-cogs"></i>
                                 </a>
-                            </p>
+                            {% endif %}
                         </div>
-                    </div>
-                </div>
-            {% elseif is_granted('ROLE_ADMIN') == true %}
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="field is-grouped">
-                            <p class="control">
-                                <a class="button is-danger" href="{{ url('admin') }}">
-                                    <span class="icon"><i class="fas fa-cogs"></i></span>
-                                    <span>Admin</span>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('logout') }}" role="link">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </nav>
 
-        <div class="container">
+        <div class="container mt-2">
+            {% include 'layout/flashes.html.twig' %}
+
             {% block body %}{% endblock %}
         </div>
 

@@ -141,7 +141,7 @@ class UserCharacter
     /**
      * @return bool
      */
-    public function getMain(): ?bool
+    public function isMain(): ?bool
     {
         return $this->main;
     }

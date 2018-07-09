@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="t_user")
@@ -34,6 +35,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 6,
+     *     max = 64,
+     *     minMessage = "Your username  must be at least {{ limit }} characters long.",
+     *     maxMessage = "Your username cannot be longer than {{ limit }} characters."
+     * )
      */
     protected $username = '';
 
@@ -50,27 +59,37 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime")
      *
-     * @var \DateTime
+     * @var \DateTimeInterface
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      *
-     * @var \DateTime
+     * @var \DateTimeInterface
+     */
+    protected $usernameUpdatedAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTimeInterface
      */
     protected $updatedAt;
 
     /**
      * User constructor.
+     *
+     * @throws \Exception
      */
     public function __construct()
     {
         $this->characters = new ArrayCollection();
 
-        $this->setCreatedAt(new \DateTime());
+        $this->setCreatedAt(new \DateTimeImmutable());
         if (null === $this->getUpdatedAt()) {
-            $this->setUpdatedAt(new \DateTime());
+            $this->setUpdatedAt(new \DateTimeImmutable());
+            $this->setUsernameUpdatedAt(new \DateTimeImmutable());
         }
     }
 
@@ -112,10 +131,13 @@ class User implements UserInterface
      * @param string $username
      *
      * @return User
+     *
+     * @throws \Exception
      */
     public function setUsername(string $username): self
     {
         $this->username = $username;
+        $this->setUsernameUpdatedAt(new \DateTimeImmutable());
 
         return $this;
     }
@@ -175,19 +197,19 @@ class User implements UserInterface
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface
      */
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
-     * @param \DateTime $createdAt
+     * @param \DateTimeInterface $createdAt
      *
      * @return User
      */
-    public function setCreatedAt(\DateTime $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -195,19 +217,39 @@ class User implements UserInterface
     }
 
     /**
-     * @return null|\DateTime
+     * @return null|\DateTimeInterface
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUsernameUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->usernameUpdatedAt;
+    }
+
+    /**
+     * @param \DateTimeInterface $usernameUpdatedAt
+     *
+     * @return User
+     */
+    public function setUsernameUpdatedAt(\DateTimeInterface $usernameUpdatedAt): self
+    {
+        $this->usernameUpdatedAt = $usernameUpdatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return null|\DateTimeInterface
+     */
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
     /**
-     * @param \DateTime $updatedAt
+     * @param \DateTimeInterface $updatedAt
      *
      * @return User
      */
-    public function setUpdatedAt(\DateTime $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -253,5 +295,18 @@ class User implements UserInterface
     public function updateModifiedDatetime()
     {
         $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @Assert\IsTrue(message="You can update the username only once every month.")
+     *
+     * @throws \Exception
+     */
+    public function isUsernameUpdatable()
+    {
+        $now = new \DateTimeImmutable();
+        $oneMonthAfterLastUsernameUpdate = $this->usernameUpdatedAt->add(new \DateInterval('P1M'));
+
+        return $oneMonthAfterLastUsernameUpdate < $now;
     }
 }
