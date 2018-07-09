@@ -6,8 +6,5 @@ hwi_oauth:
       type: "eve_online"
       client_id: "%env(resolve:OAUTH_CLIENT_ID)%"
       client_secret: "%env(resolve:OAUTH_CLIENT_SECRET)%"
-      authorization_url: "https://login.eveonline.com/oauth/authorize"
-      access_token_url: "https://login.eveonline.com/oauth/token"
-      infos_url: "https://login.eveonline.com/oauth/verify"
       options:
         csrf: true
