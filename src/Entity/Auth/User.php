@@ -296,4 +296,17 @@ class User implements UserInterface
     {
         $this->setUpdatedAt(new \DateTime());
     }
+
+    /**
+     * @Assert\IsTrue(message="You can update the username only once every month.")
+     *
+     * @throws \Exception
+     */
+    public function isUsernameUpdatable()
+    {
+        $now = new \DateTimeImmutable();
+        $oneMonthAfterLastUsernameUpdate = $this->usernameUpdatedAt->add(new \DateInterval('P1M'));
+
+        return $oneMonthAfterLastUsernameUpdate < $now;
+    }
 }
