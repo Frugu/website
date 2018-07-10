@@ -175,4 +175,13 @@ class Category
 
         return $this;
     }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
 }
