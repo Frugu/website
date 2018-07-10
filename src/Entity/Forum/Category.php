@@ -49,6 +49,9 @@ class Category
      */
     private $children;
 
+    /**
+     * Accepted values for $type field.
+     */
     const TYPE_GROUP = 'group';
     const TYPE_FORUM = 'forum';
 
