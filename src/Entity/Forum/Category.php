@@ -43,7 +43,7 @@ class Category
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Forum\Category", inversedBy="parent")
+     * @ORM\OneToMany(targetEntity="App\Entity\Forum\Category", mappedBy="parent")
      */
     private $children;
 
