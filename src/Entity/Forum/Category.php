@@ -2,6 +2,8 @@
 
 namespace App\Entity\Forum;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -25,32 +27,35 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $name = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private $slug = '';
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $description = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum\Category", inversedBy="children")
      */
-    private $parent;
+    private $parent = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Forum\Category", mappedBy="parent")
      */
     private $children;
 
+    const TYPE_GROUP = 'group';
+    const TYPE_FORUM = 'forum';
+
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
+    private $type = self::TYPE_FORUM;
 
     /**
      * @ORM\Column(type="datetime")
@@ -66,16 +71,52 @@ class Category
      */
     protected $updatedAt;
 
+    /**
+     * Category constructor.
+     *
+     * @throws \Exception
+     */
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+
+        $this->setCreatedAt(new \DateTimeImmutable());
+        if (null === $this->getUpdatedAt()) {
+            $this->setUpdatedAt(new \DateTimeImmutable());
+        }
+    }
+
+    /**
+     * Used for EasyAdmin references.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return 'Category "'.$this->getName().'"';
+    }
+
+    /**
+     * @return UuidInterface
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    /**
+     * @return string
+     */
+    public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return Category
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -83,11 +124,19 @@ class Category
         return $this;
     }
 
-    public function getSlug(): ?string
+    /**
+     * @return string
+     */
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     *
+     * @return Category
+     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
@@ -95,11 +144,19 @@ class Category
         return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @return string
+     */
+    public function getDescription(): string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     *
+     * @return Category
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -107,30 +164,52 @@ class Category
         return $this;
     }
 
+    /**
+     * @return Category|null
+     */
     public function getParent(): ?self
     {
         return $this->parent;
     }
 
-    public function setParent(?self $parent): self
+    /**
+     * @param null|Category $parent
+     * @return Category
+     */
+    public function setParent(?Category $parent): self
     {
         $this->parent = $parent;
 
         return $this;
     }
 
-    public function getChildren(): array
+    /**
+     * @return Collection|Category[]
+     */
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    public function getType(): ?string
+    /**
+     * @return string
+     */
+    public function getType(): string
     {
         return $this->type;
     }
 
+    /**
+     * @param string $type
+     *
+     * @return Category
+     */
     public function setType(string $type): self
     {
+        if (!in_array($type, [self::TYPE_GROUP, self::TYPE_FORUM])) {
+            throw new \InvalidArgumentException('Category type can only be: `' .self::TYPE_GROUP. '` or `' .self::TYPE_FORUM. '`');
+        }
+
         $this->type = $type;
 
         return $this;
