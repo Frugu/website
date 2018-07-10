@@ -236,9 +236,9 @@ class Category
     }
 
     /**
-     * @return null|\DateTimeInterface
+     * @return \DateTimeInterface
      */
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }
