@@ -16,6 +16,8 @@ class UserFactory
      * @param UserCharacter $userCharacter
      *
      * @return User
+     *
+     * @throws \Exception
      */
     public static function createFromCharacter(UserCharacter &$userCharacter): User
     {
