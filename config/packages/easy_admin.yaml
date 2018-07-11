@@ -7,8 +7,11 @@ easy_admin:
     design:
         brand_color: '#3B5998'
         menu:
+            - { label: 'Auth' }
             - { entity: 'User', icon: 'user' }
             - { entity: 'UserCharacter', icon: 'users' }
+            - { label: 'Forum' }
+            - { entity: 'Category', icon: 'tags' }
 
     entities:
         User:
@@ -31,5 +34,18 @@ easy_admin:
                     - { property: 'characterName', label: 'EvE Character Name' }
                     - { property: 'main', label: 'Main Character', sortable: false }
                     - { property: 'user', label: 'Linked User' }
+                    - { property: 'createdAt', label: 'Created At'}
+                    - { property: 'updatedAt', label: 'Last Update'}
+
+        Category:
+            label: 'Category'
+            class: App\Entity\Forum\Category
+            list:
+                fields:
+                    - { property: 'name', label: 'Name'}
+                    - { property: 'slug', label: 'Slug' }
+                    - { property: 'description', label: 'Description', sortable: false }
+                    - { property: 'type', label: 'Type', sortable: false }
+                    - { property: 'parent', label: 'Parent' }
                     - { property: 'createdAt', label: 'Created At'}
                     - { property: 'updatedAt', label: 'Last Update'}
