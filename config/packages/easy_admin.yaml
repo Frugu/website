@@ -6,6 +6,8 @@ easy_admin:
 
     design:
         brand_color: '#3B5998'
+        templates:
+            layout: 'bundles/Admin/layout.html.twig'
         menu:
             - label: 'Auth'
               icon: 'lock'
