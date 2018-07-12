@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class HomepageController extends Controller
+class ForumController extends Controller
 {
     /**
      * @Route("/", name="home")
@@ -20,7 +20,7 @@ class HomepageController extends Controller
      */
     public function index(CategoryRepository $categoryRepository)
     {
-        return $this->render('homepage/index.html.twig', [
+        return $this->render('forum/index.html.twig', [
             'categories' => $categoryRepository->findAllRootCategories()
         ]);
     }
