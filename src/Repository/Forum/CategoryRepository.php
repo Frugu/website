@@ -19,4 +19,16 @@ class CategoryRepository extends AbstractRepository
     {
         parent::__construct($registry, Category::class);
     }
+
+    /**
+     * @return Category[]
+     */
+    public function findAllRootCategories(): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.parent IS NULL')
+            ->getQuery();
+
+        return $qb->execute();
+    }
 }
