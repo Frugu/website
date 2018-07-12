@@ -7,11 +7,15 @@ easy_admin:
     design:
         brand_color: '#3B5998'
         menu:
-            - { label: 'Auth' }
-            - { entity: 'User', icon: 'user' }
-            - { entity: 'UserCharacter', icon: 'users' }
-            - { label: 'Forum' }
-            - { entity: 'Category', icon: 'tags' }
+            - label: 'Auth'
+              icon: 'lock'
+              children:
+                  - { entity: 'User', icon: 'user' }
+                  - { entity: 'UserCharacter', icon: 'users' }
+            - label: 'Forum'
+              icon: 'comments'
+              children:
+                  - { entity: 'Category', icon: 'tags' }
 
     entities:
         User:
