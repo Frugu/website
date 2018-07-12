@@ -35,8 +35,8 @@ class ForumController extends Controller
      */
     public function forum(Category $category)
     {
-        return $this->render('forum/forum.html.twig', [
-            'category' => $category
+        return $this->render('forum/index.html.twig', [
+            'categories' => [$category]
         ]);
     }
 }
