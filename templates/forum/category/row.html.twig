@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
-                        {% if type is defined and type == 'forum' %}<i class="far fa-envelope"></i> <a href="#">{% endif %}
+                        {% if type is defined and type == 'forum' %}<i class="far fa-envelope"></i> <a href="{{ url('category', {'slug': category.getSlug}) }}">{% endif %}
                         {{ category.getName }}
                         {% if type is defined and type == 'forum' %}</a>{% endif %}
                     </div>
@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col">
                             {% for forum in category.getChildren %}
-                                <i class="far fa-envelope-open"></i> <a href="#">{{ forum.getName }}</a>{% if not loop.last %} -{% endif %}
+                                <i class="far fa-envelope-open"></i> <a href="{{ url('category', {'slug': forum.getSlug}) }}">{{ forum.getName }}</a>{% if not loop.last %} -{% endif %}
                             {% endfor %}
                         </div>
                     </div>
