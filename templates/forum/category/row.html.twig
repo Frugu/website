@@ -4,7 +4,9 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
-                        {% if type is defined and type == 'forum' %}<i class="far fa-envelope"></i> {% endif %}{{ category.getName }}
+                        {% if type is defined and type == 'forum' %}<i class="far fa-envelope"></i> <a href="#">{% endif %}
+                        {{ category.getName }}
+                        {% if type is defined and type == 'forum' %}</a>{% endif %}
                     </div>
                 </div>
                 {% if category.getDescription is not empty %}
