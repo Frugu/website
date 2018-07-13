@@ -29,6 +29,11 @@ class CategoryManager
         return $category;
     }
 
+    /**
+     * @param Category $category
+     *
+     * @return array
+     */
     public static function breadcrumb(Category $category)
     {
         $breadcrumb = [];
@@ -39,8 +44,6 @@ class CategoryManager
             array_unshift($breadcrumb, ['slug' => $parent->getSlug(), 'name' => $parent->getName(), 'route' => 'category']);
             $parent = $parent->getParent();
         }
-
-        array_unshift($breadcrumb, ['url' => 'home', 'name' => 'Home']);
 
         return $breadcrumb;
     }
