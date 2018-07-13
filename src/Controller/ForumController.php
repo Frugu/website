@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Forum\Category;
-use App\Manager\Forum\CategoryManager;
+use App\Manager\Forum\BreadcrumbManager;
 use App\Repository\Forum\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +23,7 @@ class ForumController extends Controller
     public function index(CategoryRepository $categoryRepository)
     {
         return $this->render('forum/index.html.twig', [
+            'breadcrumb' => BreadcrumbManager::create(),
             'categories' => $categoryRepository->findAllRootCategories(),
         ]);
     }
@@ -36,9 +37,11 @@ class ForumController extends Controller
      */
     public function forum(Category $category)
     {
+        $categories = [$category];
+
         return $this->render('forum/index.html.twig', [
-            'breadcrumb' => CategoryManager::breadcrumb($category),
-            'categories' => [$category],
+            'breadcrumb' => BreadcrumbManager::create($categories),
+            'categories' => $categories,
         ]);
     }
 }
