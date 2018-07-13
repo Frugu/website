@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Auth\User;
 use App\Form\UserType;
+use App\Manager\Forum\BreadcrumbManager;
 use App\Repository\Auth\UserRepository;
 use App\Repository\Exception\UnsupportedClassException;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +38,10 @@ class AccountController extends Controller
         }
 
         return $this->render('account/account.html.twig', [
+            'breadcrumb' => BreadcrumbManager::create([[
+                'name' => 'Account',
+                'url' => 'account'
+            ]]),
             'form' => $form->createView(),
         ]);
     }
@@ -51,6 +56,15 @@ class AccountController extends Controller
         $characters = $user->getCharacters();
 
         return $this->render('account/characters.html.twig', [
+            'breadcrumb' => BreadcrumbManager::create([
+                [
+                    'name' => 'Account',
+                    'url' => 'account'
+                ], [
+                    'name' => 'Characters',
+                    'url' => 'account_characters'
+                ]
+            ]),
             'characters' => $characters,
         ]);
     }

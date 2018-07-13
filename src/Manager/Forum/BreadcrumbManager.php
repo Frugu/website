@@ -17,7 +17,9 @@ class BreadcrumbManager
         }
 
         foreach ($elements as $element) {
-            if ($element instanceof Category) {
+            if (is_array($element)) {
+                $breadcrumb[] = $element;
+            } elseif ($element instanceof Category) {
                 $breadcrumb = array_merge($breadcrumb, CategoryManager::breadcrumb($element));
             }
         }
