@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Forum\Category;
-use App\Factory\Forum\CategoryFactory;
+use App\Manager\Forum\CategoryManager;
 use App\Repository\Forum\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,7 +37,7 @@ class ForumController extends Controller
     public function forum(Category $category)
     {
         return $this->render('forum/index.html.twig', [
-            'breadcrumb' => CategoryFactory::breadcrumb($category),
+            'breadcrumb' => CategoryManager::breadcrumb($category),
             'categories' => [$category]
         ]);
     }

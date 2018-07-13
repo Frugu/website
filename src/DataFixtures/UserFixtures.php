@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Auth\UserCharacter;
-use App\Factory\Auth\UserFactory;
+use App\Manager\Auth\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
             $userCharacter->setCharacterId($characterId);
             $userCharacter->setCharacterName($characterName);
             $userCharacter->setMain(true);
-            $user = UserFactory::createFromCharacter($userCharacter);
+            $user = UserManager::createFromCharacter($userCharacter);
 
             if (in_array($characterId, $admins)) {
                 $user->setIsAdmin(true);

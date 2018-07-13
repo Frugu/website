@@ -2,8 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Forum\Category;
-use App\Factory\Forum\CategoryFactory;
+use App\Manager\Forum\CategoryManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -41,7 +40,7 @@ class CategoryFixtures extends Fixture
         $categories = [];
 
         foreach ($groups as $group) {
-            $category = CategoryFactory::create($group, '');
+            $category = CategoryManager::create($group, '');
             $category->setType('group');
 
             $manager->persist($category);
@@ -53,7 +52,7 @@ class CategoryFixtures extends Fixture
             $parent = $categories[$parent];
 
             foreach ($forum as $name => $description) {
-                $category = CategoryFactory::create($name, $description);
+                $category = CategoryManager::create($name, $description);
                 $category->setParent($parent);
 
                 $manager->persist($category);
