@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Auth;
 
-use App\Factory\Auth\UserFactory;
+use App\Manager\Auth\UserManager;
 use App\Repository\Auth\UserCharacterRepository;
 use App\Repository\Auth\UserRepository;
 use Doctrine\Common\Util\ClassUtils;
@@ -71,7 +71,7 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
             $userCharacter->setCharacterName($data['CharacterName']);
             $userCharacter->setMain(false);
 
-            $user = UserFactory::createFromCharacter($userCharacter);
+            $user = UserManager::createFromCharacter($userCharacter);
             $this->userRepository->save($user);
             $this->userCharacterRepository->save($userCharacter);
         } else {
