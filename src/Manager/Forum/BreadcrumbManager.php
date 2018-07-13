@@ -8,7 +8,7 @@ use App\Entity\Forum\Category;
 
 class BreadcrumbManager
 {
-    public static function create($elements, $hasHome = true)
+    public static function create($elements = [], $hasHome = true)
     {
         $breadcrumb = [];
 
