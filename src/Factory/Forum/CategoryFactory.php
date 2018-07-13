@@ -28,4 +28,20 @@ class CategoryFactory
 
         return $category;
     }
+
+    public static function breadcrumb(Category $category)
+    {
+        $breadcrumb = [];
+        array_unshift($breadcrumb, ['slug' => $category->getSlug(), 'name' => $category->getName()]);
+
+        $parent = $category->getParent();
+        while (null !== $parent) {
+            array_unshift($breadcrumb, ['slug' => $parent->getSlug(), 'name' => $parent->getName()]);
+            $parent = $parent->getParent();
+        }
+
+        array_unshift($breadcrumb, ['url' => 'home', 'name' => 'Home']);
+
+        return $breadcrumb;
+    }
 }
