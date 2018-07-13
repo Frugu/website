@@ -38,6 +38,7 @@ class ForumController extends Controller
     public function forum(Category $category)
     {
         $categories = [$category];
+
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create($categories),
             'categories' => $categories,

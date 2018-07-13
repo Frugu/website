@@ -40,7 +40,7 @@ class AccountController extends Controller
         return $this->render('account/account.html.twig', [
             'breadcrumb' => BreadcrumbManager::create([[
                 'name' => 'Account',
-                'url' => 'account'
+                'url' => 'account',
             ]]),
             'form' => $form->createView(),
         ]);
@@ -59,11 +59,11 @@ class AccountController extends Controller
             'breadcrumb' => BreadcrumbManager::create([
                 [
                     'name' => 'Account',
-                    'url' => 'account'
+                    'url' => 'account',
                 ], [
                     'name' => 'Characters',
-                    'url' => 'account_characters'
-                ]
+                    'url' => 'account_characters',
+                ],
             ]),
             'characters' => $characters,
         ]);
