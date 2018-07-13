@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Factory\Forum;
+namespace App\Manager\Forum;
 
 use App\Entity\Forum\Category;
 use Cocur\Slugify\Slugify;
 
-class CategoryFactory
+class CategoryManager
 {
     /**
      * Create a Category based on given name & description.
