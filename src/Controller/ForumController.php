@@ -23,6 +23,7 @@ class ForumController extends Controller
     public function index(CategoryRepository $categoryRepository)
     {
         return $this->render('forum/index.html.twig', [
+            'breadcrumb' => BreadcrumbManager::create(),
             'categories' => $categoryRepository->findAllRootCategories(),
         ]);
     }
