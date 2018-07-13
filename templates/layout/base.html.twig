@@ -48,6 +48,12 @@
             </ul>
         </nav>
 
+        {% if breadcrumb is defined %}
+            <div class="container mt-2">
+                {% include 'layout/breadcrumb.html.twig' %}
+            </div>
+        {% endif %}
+
         <div class="container mt-2">
             {% include 'layout/flashes.html.twig' %}
 
