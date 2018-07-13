@@ -4,7 +4,7 @@
             {% for current in breadcrumb %}
                 <li class="breadcrumb-item{% if loop.last %} active{% endif %}"{% if loop.last %} aria-current="page"{% endif %}>
                     {% if not loop.last %}
-                        <a href="{% if current.url is defined %}{{ url(current.url) }}{% else %}{{ url('category', {'slug': current.slug}) }}{% endif %}">
+                        <a href="{% if current.url is defined %}{{ url(current.url) }}{% else %}{{ url(current.route, {'slug': current.slug}) }}{% endif %}">
                     {% endif %}
                     {{ current.name }}
                     {% if not loop.last %}

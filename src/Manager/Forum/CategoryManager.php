@@ -32,11 +32,11 @@ class CategoryManager
     public static function breadcrumb(Category $category)
     {
         $breadcrumb = [];
-        array_unshift($breadcrumb, ['slug' => $category->getSlug(), 'name' => $category->getName()]);
+        array_unshift($breadcrumb, ['slug' => $category->getSlug(), 'name' => $category->getName(), 'route' => 'category']);
 
         $parent = $category->getParent();
         while (null !== $parent) {
-            array_unshift($breadcrumb, ['slug' => $parent->getSlug(), 'name' => $parent->getName()]);
+            array_unshift($breadcrumb, ['slug' => $parent->getSlug(), 'name' => $parent->getName(), 'route' => 'category']);
             $parent = $parent->getParent();
         }
 
