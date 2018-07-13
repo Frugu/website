@@ -23,7 +23,7 @@ class ForumController extends Controller
     public function index(CategoryRepository $categoryRepository)
     {
         return $this->render('forum/index.html.twig', [
-            'categories' => $categoryRepository->findAllRootCategories()
+            'categories' => $categoryRepository->findAllRootCategories(),
         ]);
     }
 
@@ -38,7 +38,7 @@ class ForumController extends Controller
     {
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => CategoryManager::breadcrumb($category),
-            'categories' => [$category]
+            'categories' => [$category],
         ]);
     }
 }

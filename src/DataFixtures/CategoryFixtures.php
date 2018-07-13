@@ -12,7 +12,7 @@ class CategoryFixtures extends Fixture
     {
         $groups = [
             'EvE Online',
-            'Mac & VIPs'
+            'Mac & VIPs',
         ];
 
         $forums = [
@@ -21,20 +21,20 @@ class CategoryFixtures extends Fixture
                 'Le Bar du Jovien Jovial' => 'Ici on parle de tout mais surtout de rien !',
                 'Corps & Drama' => 'Des corps, des recruteurs mais surtout du drama !',
                 'Wars, Politics & Corpses' => 'Des guerres, des morts et des larmes !',
-                'La hutte de Jabba' => 'Ici, on vends, on achète de tout !'
+                'La hutte de Jabba' => 'Ici, on vends, on achète de tout !',
             ],
             'Mac & VIPs' => [
                 'Général' => 'Le forum des vrais, des durs !',
-                'Draft de sujets' => 'Espace de travail pour les futur sujets/annonces/event'
+                'Draft de sujets' => 'Espace de travail pour les futur sujets/annonces/event',
             ],
             'Le Bar du Jovien Jovial' => [
                 'Clinic of Battle' => 'Les fits de vos futurs wrecks',
                 'Guides' => '',
-                'Carebear Land' => ''
+                'Carebear Land' => '',
             ],
             'Corps & Drama' => [
-                'Recrutement' => ''
-            ]
+                'Recrutement' => '',
+            ],
         ];
 
         $categories = [];
@@ -45,7 +45,6 @@ class CategoryFixtures extends Fixture
 
             $manager->persist($category);
             $categories[$category->getName()] = $category;
-
         }
 
         foreach ($forums as $parent => $forum) {

@@ -53,6 +53,7 @@ class Category
      * Accepted values for $type field.
      */
     const TYPE_GROUP = 'group';
+
     const TYPE_FORUM = 'forum';
 
     /**
@@ -177,9 +178,10 @@ class Category
 
     /**
      * @param null|Category $parent
+     *
      * @return Category
      */
-    public function setParent(?Category $parent): self
+    public function setParent(?self $parent): self
     {
         $this->parent = $parent;
 
@@ -210,7 +212,7 @@ class Category
     public function setType(string $type): self
     {
         if (!in_array($type, [self::TYPE_GROUP, self::TYPE_FORUM])) {
-            throw new \InvalidArgumentException('Category type can only be: `' .self::TYPE_GROUP. '` or `' .self::TYPE_FORUM. '`');
+            throw new \InvalidArgumentException('Category type can only be: `'.self::TYPE_GROUP.'` or `'.self::TYPE_FORUM.'`');
         }
 
         $this->type = $type;
