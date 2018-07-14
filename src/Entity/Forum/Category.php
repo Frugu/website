@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Forum;
 
+use App\Entity\Forum\Conversation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,26 +29,36 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @var string
      */
     private $name = '';
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @var string
      */
     private $slug = '';
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @var string
      */
     private $description = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Forum\Category", inversedBy="children")
+     *
+     * @var null|Category
      */
     private $parent = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Forum\Category", mappedBy="parent")
+     *
+     * @var ArrayCollection
      */
     private $children;
 
@@ -53,11 +66,14 @@ class Category
      * Accepted values for $type field.
      */
     const TYPE_GROUP = 'group';
-
     const TYPE_FORUM = 'forum';
 
     /**
+     * Possible types: group, forum
+     *
      * @ORM\Column(type="string", length=255)
+     *
+     * @var string
      */
     private $type = self::TYPE_FORUM;
 
@@ -76,6 +92,13 @@ class Category
     protected $updatedAt;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Forum\Conversation", mappedBy="category", orphanRemoval=true)
+     *
+     * @var ArrayCollection
+     */
+    private $conversations;
+
+    /**
      * Category constructor.
      *
      * @throws \Exception
@@ -83,6 +106,7 @@ class Category
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
 
         $this->setCreatedAt(new \DateTimeImmutable());
         if (null === $this->getUpdatedAt()) {
@@ -169,9 +193,9 @@ class Category
     }
 
     /**
-     * @return Category|null
+     * @return null|Category
      */
-    public function getParent(): ?self
+    public function getParent(): ?Category
     {
         return $this->parent;
     }
@@ -181,7 +205,7 @@ class Category
      *
      * @return Category
      */
-    public function setParent(?self $parent): self
+    public function setParent(?Category $parent): self
     {
         $this->parent = $parent;
 
@@ -264,8 +288,31 @@ class Category
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function updateModifiedDatetime()
+    public function updateModifiedDatetime(): void
     {
         $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    /**
+     * @param Conversation $conversation
+     *
+     * @return Category
+     */
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations[] = $conversation;
+            $conversation->setCategory($this);
+        }
+
+        return $this;
     }
 }

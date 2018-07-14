@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Auth;
 
+use App\Entity\Forum\Conversation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,6 +31,8 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Auth\UserCharacter", mappedBy="user", orphanRemoval=true)
+     *
+     * @var ArrayCollection
      */
     protected $characters;
 
@@ -43,16 +46,22 @@ class User implements UserInterface
      *     minMessage = "Your username  must be at least {{ limit }} characters long.",
      *     maxMessage = "Your username cannot be longer than {{ limit }} characters."
      * )
+     *
+     * @var string
      */
     protected $username = '';
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @var string
      */
     protected $slug = '';
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @var bool
      */
     protected $isAdmin = false;
 
@@ -78,6 +87,13 @@ class User implements UserInterface
     protected $updatedAt;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Forum\Conversation", mappedBy="author")
+     *
+     * @var ArrayCollection
+     */
+    private $conversations;
+
+    /**
      * User constructor.
      *
      * @throws \Exception
@@ -85,6 +101,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->characters = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
 
         $this->setCreatedAt(new \DateTimeImmutable());
         if (null === $this->getUpdatedAt()) {
@@ -275,7 +292,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): bool
     {
         return true;
     }
@@ -283,7 +300,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function equals(UserInterface $user)
+    public function equals(UserInterface $user): bool
     {
         return $user->getUsername() === $this->getUsername();
     }
@@ -292,7 +309,7 @@ class User implements UserInterface
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function updateModifiedDatetime()
+    public function updateModifiedDatetime(): void
     {
         $this->setUpdatedAt(new \DateTime());
     }
@@ -302,11 +319,34 @@ class User implements UserInterface
      *
      * @throws \Exception
      */
-    public function isUsernameUpdatable()
+    public function isUsernameUpdatable(): bool
     {
         $now = new \DateTimeImmutable();
         $oneMonthAfterLastUsernameUpdate = $this->usernameUpdatedAt->add(new \DateInterval('P1M'));
 
         return $oneMonthAfterLastUsernameUpdate < $now;
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    /**
+     * @param Conversation $conversation
+     *
+     * @return User
+     */
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations[] = $conversation;
+            $conversation->setAuthor($this);
+        }
+
+        return $this;
     }
 }
