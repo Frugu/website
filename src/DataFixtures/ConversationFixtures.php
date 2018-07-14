@@ -23,7 +23,7 @@ class ConversationFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 100; ++$i) {
             $conversation = ConversationManager::create(
-                $faker->name,
+                $faker->sentence,
                 $faker->text,
                 $this->oneUser(),
                 $this->oneCategory()
