@@ -41,20 +41,21 @@ class CategoryFixtures extends Fixture
         for ($i = 0; $i < self::NON_ROOT_CATEGORIES_COUNT; ++$i) {
             $category = CategoryManager::create($faker->sentence(3), $faker->text(64));
 
+            $index = null;
             do {
                 $random = rand(0, self::ROOT_CATEGORIES_COUNT * 2);
                 if ($random < self::ROOT_CATEGORIES_COUNT) {
-                    $parent = $categories[$random];
+                    $index = $random;
                 } else {
-                    $parent = $categories[rand(self::ROOT_CATEGORIES_COUNT, count($categories) - 1)];
+                    $index = rand(self::ROOT_CATEGORIES_COUNT, count($categories) - 1);
                 }
-            } while ($level[$parent->getId()->toString()] >= self::MAX_LEVEL);
-            $category->setParent($parent);
+            } while (is_null($index) && isset($categories[$index]) && $level[$categories[$index]->getId()->toString()] >= self::MAX_LEVEL);
+            $category->setParent($categories[$index]);
 
             $manager->persist($category);
             $categories[] = $category;
             $this->addReference(self::NON_ROOT_CATEGORIES_PREFIX . $i, $category);
-            $level[$category->getId()->toString()] = $level[$parent->getId()->toString()] + 1;
+            $level[$category->getId()->toString()] = $level[$categories[$index]->getId()->toString()] + 1;
         }
 
         $manager->flush();
