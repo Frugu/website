@@ -26,6 +26,7 @@ class CategoryFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
         $categories = [];
+        $level = [];
 
         for ($i = 0; $i < self::ROOT_CATEGORIES_COUNT; ++$i) {
             $category = CategoryManager::create($faker->sentence(3), $faker->text(64));
@@ -34,22 +35,26 @@ class CategoryFixtures extends Fixture
             $categories[] = $category;
             $manager->persist($category);
             $this->addReference(self::ROOT_CATEGORIES_PREFIX . $i, $category);
+            $level[$category->getId()->toString()] = 1;
         }
 
         for ($i = 0; $i < self::NON_ROOT_CATEGORIES_COUNT; ++$i) {
             $category = CategoryManager::create($faker->sentence(3), $faker->text(64));
 
-            $random = rand(0, self::ROOT_CATEGORIES_COUNT * 2);
-            if ($random < self::ROOT_CATEGORIES_COUNT) {
-                $parent = $categories[$random];
-            } else {
-                $parent = $categories[rand(self::ROOT_CATEGORIES_COUNT, count($categories) - 1)];
-            }
+            do {
+                $random = rand(0, self::ROOT_CATEGORIES_COUNT * 2);
+                if ($random < self::ROOT_CATEGORIES_COUNT) {
+                    $parent = $categories[$random];
+                } else {
+                    $parent = $categories[rand(self::ROOT_CATEGORIES_COUNT, count($categories) - 1)];
+                }
+            } while ($level[$parent->getId()->toString()] >= self::MAX_LEVEL);
             $category->setParent($parent);
 
             $manager->persist($category);
             $categories[] = $category;
             $this->addReference(self::NON_ROOT_CATEGORIES_PREFIX . $i, $category);
+            $level[$category->getId()->toString()] = $level[$parent->getId()->toString()] + 1;
         }
 
         $manager->flush();
