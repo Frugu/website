@@ -8,6 +8,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class CategoryFixtures extends Fixture
 {
+    public const NON_ROOT_CATEGORIES_COUNT = 11;
+    public const NON_ROOT_CATEGORIES_PREFIX = 'non-root-categories-';
+
     public function load(ObjectManager $manager)
     {
         $groups = [
@@ -47,6 +50,8 @@ class CategoryFixtures extends Fixture
             $categories[$category->getName()] = $category;
         }
 
+
+        $current = 0;
         foreach ($forums as $parent => $forum) {
             $parent = $categories[$parent];
 
@@ -54,11 +59,15 @@ class CategoryFixtures extends Fixture
                 $category = CategoryManager::create($name, $description);
                 $category->setParent($parent);
 
+                $this->addReference(self::NON_ROOT_CATEGORIES_PREFIX . $current, $category);
                 $manager->persist($category);
                 $categories[$name] = $category;
+
+                ++$current;
             }
         }
 
         $manager->flush();
+
     }
 }
