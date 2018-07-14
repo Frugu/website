@@ -12,6 +12,8 @@ use Faker\Factory;
 
 class ConversationFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const CONVERSATIONS_COUNT = 1000;
+
     /**
      * @param ObjectManager $manager
      *
@@ -21,13 +23,17 @@ class ConversationFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 100; ++$i) {
+        $now = new \DateTimeImmutable();
+        for ($i = 0; $i < self::CONVERSATIONS_COUNT; ++$i) {
             $conversation = ConversationManager::create(
                 $faker->sentence,
                 $faker->text,
                 $this->oneUser(),
                 $this->oneCategory()
             );
+
+            $interval = new \DateInterval('P' .rand(1, 365). 'D');
+            $conversation->setCreatedAt($now->sub($interval));
 
             $manager->persist($conversation);
         }
@@ -56,6 +62,9 @@ class ConversationFixtures extends Fixture implements DependentFixtureInterface
         return $category;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDependencies()
     {
         return [
