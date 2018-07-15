@@ -40,15 +40,6 @@ class Conversation
     private $slug = '';
 
     /**
-     * Accepted values for $type field.
-     */
-    const TYPE_NORMAL = 'normal';
-    const TYPE_STICKY = 'sticky';
-    const TYPE_ANNOUNCEMENT = 'announcement';
-    const TYPE_GLOBAL = 'global';
-    const TYPE_REPLY = 'reply';
-
-    /**
      * Possible types: normal, sticky, announcement, global, reply
      *
      * @ORM\Column(type="string", length=255)
@@ -186,11 +177,11 @@ class Conversation
      */
     public function setType(string $type): self
     {
-        if ($type === self::TYPE_NORMAL ||
-            $type === self::TYPE_STICKY ||
-            $type === self::TYPE_ANNOUNCEMENT ||
-            $type === self::TYPE_GLOBAL ||
-            $type === self::TYPE_REPLY) {
+        if ($type === ConversationType::NORMAL ||
+            $type === ConversationType::STICKY ||
+            $type === ConversationType::ANNOUNCEMENT ||
+            $type === ConversationType::GLOBAL ||
+            $type === ConversationType::REPLY) {
             $this->type = $type;
 
             return $this;
