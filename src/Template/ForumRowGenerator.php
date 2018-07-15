@@ -128,7 +128,9 @@ class ForumRowGenerator
      */
     protected function makeCategoryDetails(Category $category): array
     {
-        $first = '0 <i class="far fa-envelope"></i>';
+        $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
+
+        $first = count($conversations). ' <i class="far fa-envelope"></i>';
         $second = '//';
         $third = '//';
         return [$first, $second, $third];
