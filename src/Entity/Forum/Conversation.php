@@ -329,6 +329,16 @@ class Conversation
 
         return $this;
     }
+
+    /**
+     * Used for EasyAdmin references.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return 'Conversation "'.$this->getName().'"';
+    }
     
     /**
      * @ORM\PrePersist()
