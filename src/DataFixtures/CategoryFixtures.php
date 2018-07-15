@@ -49,7 +49,7 @@ class CategoryFixtures extends Fixture
                 } else {
                     $index = rand(self::ROOT_CATEGORIES_COUNT, count($categories) - 1);
                 }
-            } while (is_null($index) && isset($categories[$index]) && $level[$categories[$index]->getId()->toString()] >= self::MAX_LEVEL);
+            } while (is_null($index) || !isset($categories[$index]) || $level[$categories[$index]->getId()->toString()] >= self::MAX_LEVEL);
             $category->setParent($categories[$index]);
 
             $manager->persist($category);

@@ -2,17 +2,15 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Auth\User;
-use App\Entity\Forum\Category;
 use App\Manager\Forum\ConversationManager;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ConversationFixtures extends Fixture implements DependentFixtureInterface
+class ConversationFixtures extends AbstractConversationFixtures implements DependentFixtureInterface
 {
-    public const CONVERSATIONS_COUNT = 1000;
+    public const CONVERSATION_COUNT = 1000;
+    public const CONVERSATION_PREFIX = 'conversation-';
 
     /**
      * @param ObjectManager $manager
@@ -24,7 +22,7 @@ class ConversationFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         $now = new \DateTimeImmutable();
-        for ($i = 0; $i < self::CONVERSATIONS_COUNT; ++$i) {
+        for ($i = 0; $i < self::CONVERSATION_COUNT; ++$i) {
             $conversation = ConversationManager::create(
                 $faker->sentence,
                 $faker->text,
@@ -32,34 +30,17 @@ class ConversationFixtures extends Fixture implements DependentFixtureInterface
                 $this->oneCategory()
             );
 
-            $interval = new \DateInterval('P' .rand(1, 365). 'D');
-            $conversation->setCreatedAt($now->sub($interval));
+            $date = clone $now;
+            $date = $date->sub(new \DateInterval('P' .rand(1, 365). 'D'));
+
+            $conversation->setCreatedAt($date);
+            $conversation->setUpdatedAt($date);
 
             $manager->persist($conversation);
+            $this->addReference(self::CONVERSATION_PREFIX . $i, $conversation);
         }
 
         $manager->flush();
-    }
-
-    /**
-     * @return User
-     */
-    protected function oneUser(): User
-    {
-        $random = rand(0, UserFixtures::USERS_COUNT - 1);
-
-        /** @var User $user */
-        $user = $this->getReference(UserFixtures::USERS_PREFIX . $random);
-        return $user;
-    }
-
-    protected function oneCategory(): Category
-    {
-        $random = rand(0, CategoryFixtures::NON_ROOT_CATEGORIES_COUNT - 1);
-
-        /** @var Category $category */
-        $category = $this->getReference(CategoryFixtures::NON_ROOT_CATEGORIES_PREFIX . $random);
-        return $category;
     }
 
     /**
