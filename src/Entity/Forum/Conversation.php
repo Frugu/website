@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
 /**
+ * @ORM\Table(name="t_conversation")
  * @ORM\Entity(repositoryClass="App\Repository\Forum\ConversationRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Conversation
 {
@@ -335,5 +337,14 @@ class Conversation
         $this->content = $content;
 
         return $this;
+    }
+    
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime(): void
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }
