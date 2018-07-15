@@ -63,19 +63,13 @@ class Category
     private $children;
 
     /**
-     * Accepted values for $type field.
-     */
-    const TYPE_GROUP = 'group';
-    const TYPE_FORUM = 'forum';
-
-    /**
      * Possible types: group, forum
      *
      * @ORM\Column(type="string", length=255)
      *
      * @var string
      */
-    private $type = self::TYPE_FORUM;
+    private $type = CategoryType::FORUM;
 
     /**
      * @ORM\Column(type="datetime")
