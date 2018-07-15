@@ -6,9 +6,13 @@ namespace App\Manager\Forum;
 
 use App\Entity\Forum\Category;
 use App\Manager\AbstractManager;
+use App\Repository\Forum\CategoryRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @method CategoryRepository repository()
+ */
 class CategoryManager extends AbstractManager
 {
     /**

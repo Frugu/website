@@ -31,7 +31,7 @@ class ConversationRepository extends AbstractRepository
     public function findCategoryConversations(Category $category)
     {
         $qb = $this->createQueryBuilder('c')
-            ->andWhere('c.category > :category')
+            ->andWhere('c.category = :category')
             ->andWhere('c.parent IS NULL')
             ->setParameter('category', $category->getId())
             ->orderBy('c.createdAt')

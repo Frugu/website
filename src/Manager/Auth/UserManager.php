@@ -7,14 +7,18 @@ namespace App\Manager\Auth;
 use App\Entity\Auth\User;
 use App\Entity\Auth\UserCharacter;
 use App\Manager\AbstractManager;
+use App\Repository\Auth\UserRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @method UserRepository repository()
+ */
 class UserManager extends AbstractManager
 {
     /**
      * UserManager constructor.
-     * 
+     *
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)

@@ -7,10 +7,15 @@ namespace App\Manager\Forum;
 use App\Entity\Auth\User;
 use App\Entity\Forum\Category;
 use App\Entity\Forum\Conversation;
+use App\Manager\AbstractManager;
+use App\Repository\Forum\ConversationRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ConversationManager
+/**
+ * @method ConversationRepository repository()
+ */
+class ConversationManager extends AbstractManager
 {
     /**
      * CategoryManager constructor.

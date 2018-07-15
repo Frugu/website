@@ -6,6 +6,8 @@ namespace App\Controller;
 
 use App\Entity\Forum\Category;
 use App\Manager\Forum\BreadcrumbManager;
+use App\Manager\Forum\CategoryManager;
+use App\Manager\Forum\ConversationManager;
 use App\Repository\Forum\CategoryRepository;
 use App\Repository\Forum\ConversationRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +19,17 @@ class ForumController extends Controller
     /**
      * @Route("/", name="home")
      *
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryManager $categoryManager
+     * @param ConversationManager $conversationManager
      *
      * @return Response
      */
-    public function index(CategoryRepository $categoryRepository)
+    public function index(CategoryManager $categoryManager, ConversationManager $conversationManager)
     {
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create(),
-            'categories' => $categoryRepository->findAllRootCategories(),
+            'categories' => $categoryManager->repository()->findAllRootCategories(),
+            'conversationManager' => $conversationManager
         ]);
     }
 
@@ -33,19 +37,18 @@ class ForumController extends Controller
      * @Route("/category/{slug}", name="category")
      *
      * @param Category $category
-     * @param ConversationRepository $conversationRepository
+     * @param ConversationManager $conversationManager
      *
      * @return Response
      */
-    public function forum(Category $category, ConversationRepository $conversationRepository)
+    public function forum(Category $category, ConversationManager $conversationManager)
     {
         $categories = [$category];
-        $conversations = $conversationRepository->findCategoryConversations($category);
 
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create($categories),
             'categories' => $categories,
-            'conversations' => $conversations
+            'conversationManager' => $conversationManager
         ]);
     }
 }
