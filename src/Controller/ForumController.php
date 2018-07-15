@@ -36,19 +36,20 @@ class ForumController extends Controller
     /**
      * @Route("/category/{slug}", name="category")
      *
+     * @param ForumRowGenerator $forumRowGenerator
      * @param Category $category
-     * @param ConversationManager $conversationManager
      *
      * @return Response
+     *
+     * @throws \Exception
      */
-    public function forum(Category $category, ConversationManager $conversationManager)
+    public function forum(ForumRowGenerator $forumRowGenerator, Category $category)
     {
         $categories = [$category];
 
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create($categories),
-            'categories' => $categories,
-            'conversationManager' => $conversationManager
+            'rows' => $forumRowGenerator->generate($categories)
         ]);
     }
 }
