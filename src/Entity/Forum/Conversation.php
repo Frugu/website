@@ -65,7 +65,7 @@ class Conversation
     private $content = '';
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Forum\Category", inversedBy="conversations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Forum\Category")
      * @ORM\JoinColumn(nullable=false)
      *
      * @var Category
@@ -81,7 +81,7 @@ class Conversation
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Forum\Conversation", inversedBy="conversations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Forum\Conversation")
      *
      * @var null|Conversation
      */
