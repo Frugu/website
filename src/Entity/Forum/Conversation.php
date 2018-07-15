@@ -46,7 +46,7 @@ class Conversation
      *
      * @var string
      */
-    private $type = 'normal';
+    private $type = ConversationType::NORMAL;
 
     /**
      * @ORM\Column(type="string", length=255)
