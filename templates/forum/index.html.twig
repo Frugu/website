@@ -3,7 +3,11 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            {% include 'forum/category/list.html.twig' %}
+            <ul class="list-group">
+                {% for row in rows %}
+                    {% include 'forum/' ~ row.type ~ '/row.html.twig' with {'row': row} only %}
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

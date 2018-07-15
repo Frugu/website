@@ -1,0 +1,14 @@
+<li class="list-group-item list-group-item-secondary container-fluid">
+    <div class="row">
+        <div class="col">
+            {{ row.name }}
+        </div>
+    </div>
+    {% if row.preview is defined and row.preview is not empty %}
+        <div class="row">
+            <div class="col">
+                <span class="text-muted">{{ row.preview }}</span>
+            </div>
+        </div>
+    {% endif %}
+</li>
