@@ -92,13 +92,6 @@ class Category
     protected $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Forum\Conversation", mappedBy="category", orphanRemoval=true)
-     *
-     * @var ArrayCollection
-     */
-    private $conversations;
-
-    /**
      * Category constructor.
      *
      * @throws \Exception
@@ -291,28 +284,5 @@ class Category
     public function updateModifiedDatetime(): void
     {
         $this->setUpdatedAt(new \DateTime());
-    }
-
-    /**
-     * @return Collection|Conversation[]
-     */
-    public function getConversations(): Collection
-    {
-        return $this->conversations;
-    }
-
-    /**
-     * @param Conversation $conversation
-     *
-     * @return Category
-     */
-    public function addConversation(Conversation $conversation): self
-    {
-        if (!$this->conversations->contains($conversation)) {
-            $this->conversations[] = $conversation;
-            $conversation->setCategory($this);
-        }
-
-        return $this;
     }
 }

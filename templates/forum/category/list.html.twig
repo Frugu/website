@@ -5,14 +5,17 @@
             {% include 'forum/category/row.html.twig' with {'category': forum, 'type': 'forum'} only %}
         {% endfor %}
 
-        {% if category.getChildren|length > 0 and category.getConversations|length > 0 %}
+        {% set hasConversations = conversations is defined and conversations|length > 0 %}
+        {% if category.getChildren|length > 0 and hasConversations %}
             <li class="list-group-item list-group-item-secondary">
                 Conversations
             </li>
         {% endif %}
 
-        {% for conversation in category.getConversations %}
-            {% include 'forum/conversation/row.html.twig' with {'conversation': conversation} only %}
-        {% endfor %}
+        {% if hasConversations %}
+            {% for conversation in conversations %}
+                {% include 'forum/conversation/row.html.twig' with {'conversation': conversation} only %}
+            {% endfor %}
+        {% endif %}
     {% endfor %}
 </ul>
