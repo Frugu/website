@@ -5,10 +5,22 @@ declare(strict_types=1);
 namespace App\Manager\Forum;
 
 use App\Entity\Forum\Category;
+use App\Manager\AbstractManager;
 use Cocur\Slugify\Slugify;
+use Doctrine\ORM\EntityManagerInterface;
 
-class CategoryManager
+class CategoryManager extends AbstractManager
 {
+    /**
+     * CategoryManager constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        parent::__construct($entityManager, Category::class);
+    }
+
     /**
      * Create a Category based on given name & description.
      *

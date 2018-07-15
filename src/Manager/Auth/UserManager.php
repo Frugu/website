@@ -6,10 +6,22 @@ namespace App\Manager\Auth;
 
 use App\Entity\Auth\User;
 use App\Entity\Auth\UserCharacter;
+use App\Manager\AbstractManager;
 use Cocur\Slugify\Slugify;
+use Doctrine\ORM\EntityManagerInterface;
 
-class UserManager
+class UserManager extends AbstractManager
 {
+    /**
+     * UserManager constructor.
+     * 
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        parent::__construct($entityManager, User::class);
+    }
+
     /**
      * Create an User based on UserCharacter details.
      *

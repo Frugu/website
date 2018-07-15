@@ -8,9 +8,20 @@ use App\Entity\Auth\User;
 use App\Entity\Forum\Category;
 use App\Entity\Forum\Conversation;
 use Cocur\Slugify\Slugify;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ConversationManager
 {
+    /**
+     * CategoryManager constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        parent::__construct($entityManager, Conversation::class);
+    }
+
     /**
      * Create a Conversation based on given name & description.
      *
