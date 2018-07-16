@@ -61,7 +61,7 @@ class Paginator
      */
     public function hasNext(): bool
     {
-        return $this->offset < $this->total;
+        return ($this->offset + $this->limit) < $this->total;
     }
 
     /**
