@@ -74,6 +74,7 @@ class ForumRowGenerator
 
             if ($hasChilds && $hasConversations) {
                 $rows[] = $this->fillWithSeparator('Conversations');
+                ++$count;
             }
 
             foreach ($conversations as $conversation) {
