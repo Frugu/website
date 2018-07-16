@@ -15,27 +15,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ForumController extends Controller
 {
     /**
+     * @var ForumRowGenerator
+     */
+    protected $forumRowGenerator;
+
+    public function __construct(ForumRowGenerator $forumRowGenerator)
+    {
+        $this->forumRowGenerator = $forumRowGenerator;
+    }
+
+    /**
      * @Route("/", name="home")
      *
-     * @param ForumRowGenerator $forumRowGenerator
      * @param CategoryManager $categoryManager
      *
      * @return Response
      *
      * @throws \Exception
      */
-    public function index(ForumRowGenerator $forumRowGenerator, CategoryManager $categoryManager)
+    public function index(CategoryManager $categoryManager)
     {
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create(),
-            'paginator' => $forumRowGenerator->generate($categoryManager->repository()->findAllRootCategories(), 1, 0)
+            'paginator' => $this->forumRowGenerator->generate($categoryManager->repository()->findAllRootCategories(), 1, 0)
         ]);
     }
 
     /**
      * @Route("/category/{slug}/{page}", name="category", requirements={"page"="\d+"})
      *
-     * @param ForumRowGenerator $forumRowGenerator
      * @param Category $category
      * @param int $page
      *
@@ -43,13 +51,13 @@ class ForumController extends Controller
      *
      * @throws \Exception
      */
-    public function forum(ForumRowGenerator $forumRowGenerator, Category $category, int $page = 1)
+    public function forum(Category $category, int $page = 1)
     {
         $categories = [$category];
 
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create($categories),
-            'paginator' => $forumRowGenerator->generate($categories, $page)
+            'paginator' => $this->forumRowGenerator->generate($categories, $page)
         ]);
     }
 }
