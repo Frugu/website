@@ -1,0 +1,19 @@
+{% if paginator.needsPagination %}
+    <div class="row mt-4">
+        <div class="col">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not paginator.hasPrevious %}disabled{% endif %}">
+                        <a class="page-link" href="#"><i class="fas fa-backward"></i></a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="#">{{ paginator.current }}</a></li>
+                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    <li class="page-item {% if not paginator.hasNext %}disabled{% endif %}">
+                        <a class="page-link" href="#"><i class="fas fa-forward"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endif %}

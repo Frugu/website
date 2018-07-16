@@ -44,24 +44,29 @@ class ForumRowGenerator
 
     /**
      * @param array $categories
+     * @param int $page
+     * @param int $limit
      *
-     * @return ForumRowTemplate[]
+     * @return Paginator
      *
      * @throws \Exception
      */
-    public function generate(array $categories): array
+    public function generate(array $categories, int $page = 1, int $limit = 20): Paginator
     {
         $rows = [];
+        $count = 0;
 
         /** @var Category $category */
         foreach ($categories as $category) {
             $rows[] = $this->fill($category, true);
+            ++$count;
 
             $childs = $category->getChildren();
             $hasChilds = count($childs) > 0;
 
             foreach ($childs as $child) {
                 $rows[] = $this->fill($child);
+                ++$count;
             }
 
             $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
@@ -73,11 +78,18 @@ class ForumRowGenerator
 
             foreach ($conversations as $conversation) {
                 $rows[] = $this->fill($conversation);
+                ++$count;
             }
-
         }
 
-        return $rows;
+        // if $limit is zero, we just give everything
+        if ($limit === 0) {
+            $limit = $count;
+        }
+
+        $offset = ($page - 1) * $limit;
+        $paginator = new Paginator(array_slice($rows, $offset, $limit), $count, $offset);
+        return $paginator;
     }
 
     /**
