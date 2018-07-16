@@ -89,7 +89,11 @@ class ForumRowGenerator
         }
 
         $offset = ($page - 1) * $limit;
-        $paginator = new Paginator(array_slice($rows, $offset, $limit), $count, $offset, $limit);
+        $paginator = new Paginator(array_slice($rows, $offset, $limit), $count, $offset, $limit, function (int $page) use ($categories) {
+            /** @var Category $category */
+            $category = current($categories);
+            return $this->urlGenerator->generate('category', ['slug' => $category->getSlug(), 'page' => $page]);
+        });
         return $paginator;
     }
 

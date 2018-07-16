@@ -25,19 +25,26 @@ class Paginator
     public $limit;
 
     /**
+     * @var callable
+     */
+    public $linkGenerator;
+
+    /**
      * TemplatePaginator constructor.
      *
      * @param array $list
      * @param int $total
      * @param int $offset
      * @param int $limit
+     * @param callable $linkGenerator
      */
-    public function __construct(array $list, int $total, int $offset, int $limit)
+    public function __construct(array $list, int $total, int $offset, int $limit, callable $linkGenerator)
     {
         $this->list = $list;
         $this->total = $total;
         $this->offset = $offset;
         $this->limit = $limit;
+        $this->linkGenerator = $linkGenerator;
     }
 
     /**
@@ -75,9 +82,35 @@ class Paginator
     /**
      * @return int
      */
+    public function previous(): int
+    {
+        return $this->current() - 1;
+    }
+
+    /**
+     * @return int
+     */
+    public function next(): int
+    {
+        return $this->current() + 1;
+    }
+
+    /**
+     * @return int
+     */
     public function pages(): int
     {
         return ceil($this->total / $this->limit);
+    }
+
+    /**
+     * @param int $page
+     *
+     * @return string
+     */
+    public function link(int $page) {
+        $callable = $this->linkGenerator;
+        return $callable($page);
     }
 
     /**
@@ -88,8 +121,10 @@ class Paginator
     public function links($elements = 3): array
     {
         $offset = $this->current();
-        if (($offset + $elements) > $this->pages()) {
-            $offset = $offset - (($offset + $elements) - $this->pages()) + 1;
+        if ($offset === $this->pages()) {
+            $offset = $offset - ($elements - 1);
+        } elseif (($offset + $elements) > $this->pages()) {
+            $offset = $offset - (($offset + $elements) - $this->pages());
         }
 
         $links = range(1, $this->pages());

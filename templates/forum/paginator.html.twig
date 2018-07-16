@@ -4,13 +4,13 @@
             <nav>
                 <ul class="pagination justify-content-center">
                     <li class="page-item {% if not paginator.hasPrevious %}disabled{% endif %}">
-                        <a class="page-link" href="#"><i class="fas fa-backward"></i></a>
+                        <a class="page-link" href="{% if paginator.hasPrevious %}{{ paginator.link(paginator.previous) }}{% endif %}"><i class="fas fa-backward"></i></a>
                     </li>
-                    {% for link in paginator.links %}
-                        <li class="page-item"><a class="page-link" href="#">{{ link }}</a></li>
+                    {% for page in paginator.links %}
+                        <li class="page-item {% if page == paginator.current %}disabled{% endif %}"><a class="page-link" href="{{ paginator.link(page) }}">{{ page }}</a></li>
                     {% endfor %}
                     <li class="page-item {% if not paginator.hasNext %}disabled{% endif %}">
-                        <a class="page-link" href="#"><i class="fas fa-forward"></i></a>
+                        <a class="page-link" href="{% if paginator.hasNext %}{{ paginator.link(paginator.next) }}{% endif %}"><i class="fas fa-forward"></i></a>
                     </li>
                 </ul>
             </nav>
