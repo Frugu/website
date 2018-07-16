@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Auth\User;
 use App\Form\UserType;
+use App\Manager\Auth\UserManager;
 use App\Manager\Forum\BreadcrumbManager;
 use App\Repository\Auth\UserRepository;
 use App\Repository\Exception\UnsupportedClassException;
@@ -18,13 +19,13 @@ class AccountController extends Controller
      * @Route("/account", name="account")
      *
      * @param Request        $request
-     * @param UserRepository $userRepository
+     * @param UserManager $userManager
      *
      * @return Response
      *
      * @throws UnsupportedClassException
      */
-    public function account(Request $request, UserRepository $userRepository)
+    public function account(Request $request, UserManager $userManager)
     {
         $form = $this->createForm(UserType::class, $this->getUser());
         $form->handleRequest($request);
@@ -32,7 +33,7 @@ class AccountController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $form->getData();
-            $userRepository->save($user);
+            $userManager->repository()->save($user);
 
             $this->addFlash('success', 'Account updated.');
         }
