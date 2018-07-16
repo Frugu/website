@@ -19,6 +19,10 @@ class ForumController extends Controller
      */
     protected $forumRowGenerator;
 
+    /**
+     * ForumController constructor.
+     * @param ForumRowGenerator $forumRowGenerator
+     */
     public function __construct(ForumRowGenerator $forumRowGenerator)
     {
         $this->forumRowGenerator = $forumRowGenerator;
