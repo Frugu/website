@@ -65,9 +65,9 @@ class Paginator
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function current(): string
+    public function current(): int
     {
         return ($this->offset + $this->limit) / $this->limit;
     }
@@ -78,5 +78,22 @@ class Paginator
     public function pages(): int
     {
         return ceil($this->total / $this->limit);
+    }
+
+    /**
+     * @param int $elements
+     *
+     * @return array
+     */
+    public function links($elements = 3): array
+    {
+        $offset = $this->current();
+        if (($offset + $elements) > $this->pages()) {
+            $offset = $offset - (($offset + $elements) - $this->pages()) + 1;
+        }
+
+        $links = range(1, $this->pages());
+        $links = array_slice($links, ($offset - 1), $elements);
+        return $links;
     }
 }
