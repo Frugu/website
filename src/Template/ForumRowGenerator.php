@@ -89,7 +89,7 @@ class ForumRowGenerator
         }
 
         $offset = ($page - 1) * $limit;
-        $paginator = new Paginator(array_slice($rows, $offset, $limit), $count, $offset);
+        $paginator = new Paginator(array_slice($rows, $offset, $limit), $count, $offset, $limit);
         return $paginator;
     }
 

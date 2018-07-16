@@ -30,13 +30,14 @@ class Paginator
      * @param array $list
      * @param int $total
      * @param int $offset
+     * @param int $limit
      */
-    public function __construct(array $list, int $total, int $offset)
+    public function __construct(array $list, int $total, int $offset, int $limit)
     {
         $this->list = $list;
         $this->total = $total;
         $this->offset = $offset;
-        $this->limit = count($list);
+        $this->limit = $limit;
     }
 
     /**
@@ -64,9 +65,9 @@ class Paginator
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function current(): int
+    public function current(): string
     {
         return ($this->offset + $this->limit) / $this->limit;
     }
