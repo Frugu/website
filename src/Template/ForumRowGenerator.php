@@ -64,6 +64,7 @@ class ForumRowGenerator
         foreach ($categories as $category) {
             $rows[] = $this->fill($category, true);
 
+            $hasHeader = false;
             $childs = $category->getChildren();
             $countChilds = count($childs);
 
@@ -71,6 +72,7 @@ class ForumRowGenerator
                 foreach ($childs as $child) {
                     if ($hasNoLimit || Paginator::exactCheck($offset, $offsetEnd, $count)) {
                         $rows[] = $this->fill($child);
+                        $hasHeader = true;
                     }
                     ++$count;
                 }
@@ -81,7 +83,7 @@ class ForumRowGenerator
             $countConversations = $this->conversationManager->repository()->countCategoryConversations($category);
             $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
 
-            if ($countChilds > 0 && $countConversations > 0) {
+            if ($hasHeader && $countConversations > 0) {
                 $rows[] = $this->fillWithSeparator('Conversations');
             }
 
