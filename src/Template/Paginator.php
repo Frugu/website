@@ -121,14 +121,13 @@ class Paginator
     public function links($elements = 3): array
     {
         $offset = $this->current();
-        if ($offset === $this->pages()) {
-            $offset = $offset - ($elements - 1);
-        } elseif (($offset + $elements) > $this->pages()) {
-            $offset = $offset - (($offset + $elements) - $this->pages());
+        $offset = $offset - 2;
+        if ($offset < 0) {
+            $offset = 0;
         }
 
         $links = range(1, $this->pages());
-        $links = array_slice($links, ($offset - 1), $elements);
+        $links = array_slice($links, $offset, $elements);
         return $links;
     }
 
@@ -149,7 +148,7 @@ class Paginator
      * @param int $offsetEnd
      * @param int $lastCount
      * @param int $objectCount
-     * 
+     *
      * @return bool
      */
     public static function groupCheck(int $offsetStart, int $offsetEnd, int $lastCount, int $objectCount): bool
