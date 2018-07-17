@@ -31,7 +31,7 @@ class ConversationRepository extends AbstractRepository
      *
      * @throws NonUniqueResultException
      */
-    public function countCategoryConversations(Category $category)
+    public function countCategoryConversations(Category $category): int
     {
         $count = $this->createQueryBuilder('c')
             ->select('COUNT(c.id)')
@@ -41,7 +41,7 @@ class ConversationRepository extends AbstractRepository
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $count;
+        return $count[1];
     }
 
     /**
@@ -49,7 +49,7 @@ class ConversationRepository extends AbstractRepository
      *
      * @return Conversation[]
      */
-    public function findCategoryConversations(Category $category)
+    public function findCategoryConversations(Category $category): array
     {
         $qb = $this->createQueryBuilder('c')
             ->andWhere('c.category = :category')
