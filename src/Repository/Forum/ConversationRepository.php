@@ -7,6 +7,7 @@ namespace App\Repository\Forum;
 use App\Entity\Forum\Category;
 use App\Entity\Forum\Conversation;
 use App\Repository\AbstractRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,6 +27,26 @@ class ConversationRepository extends AbstractRepository
     /**
      * @param Category $category
      *
+     * @return int
+     *
+     * @throws NonUniqueResultException
+     */
+    public function countCategoryConversations(Category $category)
+    {
+        $count = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('c.category = :category')
+            ->andWhere('c.parent IS NULL')
+            ->setParameter('category', $category->getId()->toString())
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $count;
+    }
+
+    /**
+     * @param Category $category
+     *
      * @return Conversation[]
      */
     public function findCategoryConversations(Category $category)
@@ -33,7 +54,7 @@ class ConversationRepository extends AbstractRepository
         $qb = $this->createQueryBuilder('c')
             ->andWhere('c.category = :category')
             ->andWhere('c.parent IS NULL')
-            ->setParameter('category', $category->getId())
+            ->setParameter('category', $category->getId()->toString())
             ->orderBy('c.createdAt')
             ->getQuery();
 

@@ -69,8 +69,9 @@ class ForumRowGenerator
                 ++$count;
             }
 
+            $countConversations = $this->conversationManager->repository()->countCategoryConversations($category);
             $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
-            $hasConversations = count($conversations) > 0;
+            $hasConversations = $countConversations > 0;
 
             if ($hasChilds && $hasConversations) {
                 $rows[] = $this->fillWithSeparator('Conversations');
