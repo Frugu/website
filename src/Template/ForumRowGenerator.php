@@ -212,7 +212,7 @@ class ForumRowGenerator
         $row->type = ForumRowTemplateType::CONVERSATION;
         $row->subtype = $conversation->getType();
         $row->preview = $conversation->getContent();
-        $row->link = null;
+        $row->link = $this->urlGenerator->generate('conversation', ['id' => $conversation->getId()]);
         $row->details = null;
         $row->additionalLinks = null;
 

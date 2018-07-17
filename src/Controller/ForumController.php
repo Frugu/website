@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Forum\Category;
+use App\Entity\Forum\Conversation;
 use App\Template\ForumRowGenerator;
 use App\Manager\Forum\BreadcrumbManager;
 use App\Manager\Forum\CategoryManager;
@@ -62,6 +63,20 @@ class ForumController extends Controller
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create($categories),
             'paginator' => $this->forumRowGenerator->generate($categories, $page)
+        ]);
+    }
+
+    /**
+     * @Route("/conversation/{id}", name="conversation")
+     *
+     * @param Conversation $conversation
+     *
+     * @return Response
+     */
+    public function conversation(Conversation $conversation)
+    {
+        return $this->render('forum/conversation.html.twig', [
+            'conversation' => $conversation
         ]);
     }
 }
