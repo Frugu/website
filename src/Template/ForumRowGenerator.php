@@ -66,7 +66,6 @@ class ForumRowGenerator
 
             $childs = $category->getChildren();
             $countChilds = count($childs);
-            $hasChilds = $countChilds > 0;
 
             if ($hasNoLimit || Paginator::groupCheck($offset, $offsetEnd, $count, $countChilds)) {
                 foreach ($childs as $child) {
@@ -81,9 +80,8 @@ class ForumRowGenerator
 
             $countConversations = $this->conversationManager->repository()->countCategoryConversations($category);
             $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
-            $hasConversations = $countConversations > 0;
 
-            if ($hasChilds && $hasConversations) {
+            if ($countChilds > 0 && $countConversations > 0) {
                 $rows[] = $this->fillWithSeparator('Conversations');
             }
 
