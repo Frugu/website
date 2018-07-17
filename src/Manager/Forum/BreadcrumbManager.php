@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Manager\Forum;
 
 use App\Entity\Forum\Category;
+use App\Entity\Forum\Conversation;
 
 class BreadcrumbManager
 {
@@ -21,6 +22,8 @@ class BreadcrumbManager
                 $breadcrumb[] = $element;
             } elseif ($element instanceof Category) {
                 $breadcrumb = array_merge($breadcrumb, CategoryManager::breadcrumb($element));
+            } elseif ($element instanceof Conversation) {
+                $breadcrumb = array_merge($breadcrumb, ConversationManager::breadcrumb($element));
             }
         }
 

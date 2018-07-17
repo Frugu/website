@@ -52,4 +52,17 @@ class ConversationManager extends AbstractManager
 
         return $conversation;
     }
+
+    /**
+     * @param Conversation $conversation
+     *
+     * @return array
+     */
+    public static function breadcrumb(Conversation $conversation)
+    {
+        $breadcrumb = CategoryManager::breadcrumb($conversation->getCategory());
+        $breadcrumb[] = ['id' => $conversation->getId(), 'name' => $conversation->getName(), 'route' => 'conversation'];
+
+        return $breadcrumb;
+    }
 }

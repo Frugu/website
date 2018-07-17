@@ -76,6 +76,7 @@ class ForumController extends Controller
     public function conversation(Conversation $conversation)
     {
         return $this->render('forum/conversation.html.twig', [
+            'breadcrumb' => BreadcrumbManager::create([$conversation]),
             'conversation' => $conversation
         ]);
     }
