@@ -56,17 +56,27 @@ class ForumRowGenerator
         $rows = [];
         $count = 0;
 
+        $hasNoLimit = $limit === 0;
+        $offset = ($page - 1) * $limit;
+        $offsetEnd = $offset + $limit;
+
         /** @var Category $category */
         foreach ($categories as $category) {
             $rows[] = $this->fill($category, true);
-            ++$count;
 
             $childs = $category->getChildren();
-            $hasChilds = count($childs) > 0;
+            $countChilds = count($childs);
+            $hasChilds = $countChilds > 0;
 
-            foreach ($childs as $child) {
-                $rows[] = $this->fill($child);
-                ++$count;
+            if ($hasNoLimit || Paginator::groupCheck($offset, $offsetEnd, $count, $countChilds)) {
+                foreach ($childs as $child) {
+                    if ($hasNoLimit || Paginator::exactCheck($offset, $offsetEnd, $count)) {
+                        $rows[] = $this->fill($child);
+                    }
+                    ++$count;
+                }
+            } else {
+                $count += $countChilds;
             }
 
             $countConversations = $this->conversationManager->repository()->countCategoryConversations($category);
@@ -75,27 +85,25 @@ class ForumRowGenerator
 
             if ($hasChilds && $hasConversations) {
                 $rows[] = $this->fillWithSeparator('Conversations');
-                ++$count;
             }
 
-            foreach ($conversations as $conversation) {
-                $rows[] = $this->fill($conversation);
-                ++$count;
+            if ($hasNoLimit || Paginator::groupCheck($offset, $offsetEnd, $count, $countConversations)) {
+                foreach ($conversations as $conversation) {
+                    if ($hasNoLimit || Paginator::exactCheck($offset, $offsetEnd, $count)) {
+                        $rows[] = $this->fill($conversation);
+                    }
+                    ++$count;
+                }
+            } else {
+                $count += $countConversations;
             }
         }
 
-        // if $limit is zero, we just give everything
-        if ($limit === 0) {
-            $limit = $count;
-        }
-
-        $offset = ($page - 1) * $limit;
-        $paginator = new Paginator(array_slice($rows, $offset, $limit), $count, $offset, $limit, function (int $page) use ($categories) {
+        return new Paginator($rows, $count, $offset, $limit, function (int $page) use ($categories) {
             /** @var Category $category */
             $category = current($categories);
             return $this->urlGenerator->generate('category', ['slug' => $category->getSlug(), 'page' => $page]);
         });
-        return $paginator;
     }
 
     /**

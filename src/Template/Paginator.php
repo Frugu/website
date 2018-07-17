@@ -131,4 +131,30 @@ class Paginator
         $links = array_slice($links, ($offset - 1), $elements);
         return $links;
     }
+
+    /**
+     * @param int $offsetStart
+     * @param int $offsetEnd
+     * @param int $lastCount
+     *
+     * @return bool
+     */
+    public static function exactCheck(int $offsetStart, int $offsetEnd, int $lastCount): bool
+    {
+        return $offsetStart <= ($lastCount + 1) && $offsetEnd > ($lastCount + 1);
+    }
+
+    /**
+     * @param int $offsetStart
+     * @param int $offsetEnd
+     * @param int $lastCount
+     * @param int $objectCount
+     * 
+     * @return bool
+     */
+    public static function groupCheck(int $offsetStart, int $offsetEnd, int $lastCount, int $objectCount): bool
+    {
+        $countAfter = $lastCount + $objectCount;
+        return ($offsetStart < $countAfter) || ($offsetEnd > $lastCount);
+    }
 }
