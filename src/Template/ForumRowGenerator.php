@@ -55,6 +55,7 @@ class ForumRowGenerator
     {
         $rows = [];
         $count = 0;
+        $ignoredCount = 0;
 
         $hasNoLimit = $limit === 0;
         $offset = ($page - 1) * $limit;
@@ -63,6 +64,7 @@ class ForumRowGenerator
         /** @var Category $category */
         foreach ($categories as $category) {
             $rows[] = $this->fill($category, true);
+            ++$ignoredCount;
 
             $hasHeader = false;
             $childs = $category->getChildren();
@@ -81,13 +83,27 @@ class ForumRowGenerator
             }
 
             $countConversations = $this->conversationManager->repository()->countCategoryConversations($category);
-            $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
 
             if ($hasHeader && $countConversations > 0) {
                 $rows[] = $this->fillWithSeparator('Conversations');
+                ++$ignoredCount;
             }
 
             if ($hasNoLimit || Paginator::groupCheck($offset, $offsetEnd, $count, $countConversations)) {
+                $offsetRemainigStart = $offset + (count($rows) - $ignoredCount);
+
+                $queryOffset = $offsetRemainigStart;
+                $queryLimit = $offsetEnd - $offsetRemainigStart - 1;
+                if ($hasNoLimit) {
+                    $queryOffset = null;
+                    $queryLimit = null;
+                }
+
+                $conversations = $this->conversationManager->repository()->findCategoryConversations(
+                    $category,
+                    $queryOffset,
+                    $queryLimit
+                );
                 foreach ($conversations as $conversation) {
                     if ($hasNoLimit || Paginator::exactCheck($offset, $offsetEnd, $count)) {
                         $rows[] = $this->fill($conversation);

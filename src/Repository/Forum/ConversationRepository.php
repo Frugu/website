@@ -46,18 +46,25 @@ class ConversationRepository extends AbstractRepository
 
     /**
      * @param Category $category
+     * @param int|null $offset
+     * @param int|null $limit
      *
-     * @return Conversation[]
+     * @return array
      */
-    public function findCategoryConversations(Category $category): array
+    public function findCategoryConversations(Category $category, int $offset = null, int $limit = null): array
     {
         $qb = $this->createQueryBuilder('c')
             ->andWhere('c.category = :category')
             ->andWhere('c.parent IS NULL')
             ->setParameter('category', $category->getId()->toString())
-            ->orderBy('c.createdAt')
-            ->getQuery();
+            ->orderBy('c.createdAt');
 
-        return $qb->execute();
+        if (null !== $offset && null !== $limit) {
+            $qb = $qb
+                    ->setFirstResult($offset)
+                    ->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->execute();
     }
 }

@@ -52,7 +52,9 @@ class Paginator
      */
     public function needsPagination(): bool
     {
-        return $this->total !== $this->limit;
+        $noLimit = $this->limit === 0;
+
+        return !$noLimit && $this->total !== $this->limit;
     }
 
     /**
