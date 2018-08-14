@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Forum\CategoryType;
 use App\Manager\Forum\CategoryManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -30,7 +31,7 @@ class CategoryFixtures extends Fixture
 
         for ($i = 0; $i < self::ROOT_CATEGORIES_COUNT; ++$i) {
             $category = CategoryManager::create($faker->sentence(3), $faker->text(64));
-            $category->setType('group');
+            $category->setType(CategoryType::GROUP);
 
             $categories[] = $category;
             $manager->persist($category);

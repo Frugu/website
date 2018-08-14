@@ -222,8 +222,8 @@ class Category
      */
     public function setType(string $type): self
     {
-        if (!in_array($type, [self::TYPE_GROUP, self::TYPE_FORUM])) {
-            throw new \InvalidArgumentException('Category type can only be: `'.self::TYPE_GROUP.'` or `'.self::TYPE_FORUM.'`');
+        if (!in_array($type, [CategoryType::GROUP, CategoryType::FORUM])) {
+            throw new \InvalidArgumentException('Category type can only be: `'.CategoryType::GROUP.'` or `'.CategoryType::FORUM.'`');
         }
 
         $this->type = $type;
