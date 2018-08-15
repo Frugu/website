@@ -1,6 +1,6 @@
 #index:
 #    path: /
-#    controller: App\Controller\DefaultController::index
+#    controller: Frugu\Controller\DefaultController::index
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
     prefix:   /connect

@@ -1,8 +1,0 @@
-<ul class="list-group">
-    {% for category in categories %}
-        {% include 'forum/category/row.html.twig' with {'category': category, 'class': 'list-group-item-warning', 'type': 'group'} only %}
-        {% for forum in category.getChildren %}
-            {% include 'forum/category/row.html.twig' with {'category': forum, 'type': 'forum'} only %}
-        {% endfor %}
-    {% endfor %}
-</ul>

@@ -18,11 +18,12 @@ easy_admin:
               icon: 'comments'
               children:
                   - { entity: 'Category', icon: 'tags' }
+                  - { entity: 'Conversation', icon: 'comments' }
 
     entities:
         User:
             label: 'Users'
-            class: App\Entity\Auth\User
+            class: Frugu\Entity\Auth\User
             list:
                 fields:
                     - 'username'
@@ -32,7 +33,7 @@ easy_admin:
 
         UserCharacter:
             label: 'Characters'
-            class: App\Entity\Auth\UserCharacter
+            class: Frugu\Entity\Auth\UserCharacter
             disabled_actions: ['new', 'edit']
             list:
                 fields:
@@ -45,7 +46,7 @@ easy_admin:
 
         Category:
             label: 'Category'
-            class: App\Entity\Forum\Category
+            class: Frugu\Entity\Forum\Category
             list:
                 fields:
                     - { property: 'name', label: 'Name'}
@@ -55,3 +56,20 @@ easy_admin:
                     - { property: 'parent', label: 'Parent' }
                     - { property: 'createdAt', label: 'Created At'}
                     - { property: 'updatedAt', label: 'Last Update'}
+
+        Conversation:
+            label: 'Conversation'
+            class: Frugu\Entity\Forum\Conversation
+            disabled_actions: ['new']
+            list:
+                fields:
+                    - { property: 'name', label: 'Name'}
+                    - { property: 'slug', label: 'Slug' }
+                    - { property: 'content', label: 'Content', sortable: false }
+                    - { property: 'type', label: 'Type', sortable: false }
+                    - { property: 'author', label: 'Author' }
+                    - { property: 'category', label: 'Category' }
+                    - { property: 'parent', label: 'Parent' }
+                    - { property: 'createdAt', label: 'Created At'}
+                    - { property: 'updatedAt', label: 'Last Update'}
+                    - { property: 'deletedAt', label: 'Deleted At'}

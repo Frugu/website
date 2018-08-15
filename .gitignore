@@ -2,9 +2,12 @@
 /.idea/
 ###< jetbrains ###
 
+###> php-cs-fixer ###
+/.php_cs.cache
+###< php-cs-fixer ###
+
 ###> docker ###
 /.data/
-/.docker-sync/
 ###< docker ###
 
 ###> symfony/framework-bundle ###

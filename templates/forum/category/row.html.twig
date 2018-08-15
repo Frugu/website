@@ -1,39 +1,47 @@
-<li class="list-group-item container-fluid{% if class is defined %} {{ class }}{% endif %}">
+{% set class = '' %}
+{% set isForum = row.subtype is defined and row.subtype == 'forum' %}
+{% if row.subtype is defined and row.subtype == 'group' %}
+    {% set class = ' list-group-item-warning' %}
+{% endif %}
+
+<li class="list-group-item container-fluid{{ class }}">
     <div class="row">
-        <div class="col-6">
+        <div class="col-7">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
-                        {% if type is defined and type == 'forum' %}<i class="far fa-envelope"></i> <a href="{{ url('category', {'slug': category.getSlug}) }}">{% endif %}
-                        {{ category.getName }}
-                        {% if type is defined and type == 'forum' %}</a>{% endif %}
+                        {% if isForum %}<i class="far fa-envelope"></i> <a href="{{ row.link }}">{% endif %}
+                        {{ row.name }}
+                        {% if isForum %}</a>{% endif %}
                     </div>
                 </div>
-                {% if category.getDescription is not empty %}
-                <div class="row">
-                    <div class="col">
-                        <span class="text-muted">{{ category.getDescription }}</span>
+                {% if row.preview is not empty %}
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-muted">{{ row.preview }}</span>
+                        </div>
                     </div>
-                </div>
                 {% endif %}
             </div>
         </div>
 
-        {% if type is defined and type == 'forum' %}
-            <div class="col">
-                //
-            </div>
+        {% if isForum %}
+            {% for detail in row.details %}
+                <div class="col">
+                    {{ detail|raw }}
+                </div>
+            {% endfor %}
         {% endif %}
     </div>
 
-    {% if type is defined and type == 'forum' %}
+    {% if isForum %}
         <div class="row">
             <div class="col">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col">
-                            {% for forum in category.getChildren %}
-                                <i class="far fa-envelope-open"></i> <a href="{{ url('category', {'slug': forum.getSlug}) }}">{{ forum.getName }}</a>{% if not loop.last %} -{% endif %}
+                            {% for link in row.additionalLinks %}
+                                {{ link|raw }}
                             {% endfor %}
                         </div>
                     </div>
