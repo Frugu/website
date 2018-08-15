@@ -110,7 +110,8 @@ class Paginator
      *
      * @return string
      */
-    public function link(int $page) {
+    public function link(int $page)
+    {
         $callable = $this->linkGenerator;
         return $callable($page);
     }

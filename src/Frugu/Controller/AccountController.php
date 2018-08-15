@@ -6,7 +6,6 @@ use Frugu\Entity\Auth\User;
 use Frugu\Form\UserType;
 use Frugu\Manager\Auth\UserManager;
 use Frugu\Manager\Forum\BreadcrumbManager;
-use Frugu\Repository\Auth\UserRepository;
 use Frugu\Repository\Exception\UnsupportedClassException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

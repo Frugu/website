@@ -204,7 +204,7 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        $roles = array('ROLE_USER', 'ROLE_OAUTH_USER');
+        $roles = ['ROLE_USER', 'ROLE_OAUTH_USER'];
 
         if ($this->isAdmin()) {
             $roles[] = 'ROLE_ADMIN';

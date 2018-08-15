@@ -83,7 +83,6 @@ class ForumRowGenerator
                     'limit' => $pageElementLimit
                 ];
             } while ($continue);
-
         }
 
 
