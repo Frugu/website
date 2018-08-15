@@ -23,7 +23,7 @@ easy_admin:
     entities:
         User:
             label: 'Users'
-            class: App\Entity\Auth\User
+            class: Frugu\Entity\Auth\User
             list:
                 fields:
                     - 'username'
@@ -33,7 +33,7 @@ easy_admin:
 
         UserCharacter:
             label: 'Characters'
-            class: App\Entity\Auth\UserCharacter
+            class: Frugu\Entity\Auth\UserCharacter
             disabled_actions: ['new', 'edit']
             list:
                 fields:
@@ -46,7 +46,7 @@ easy_admin:
 
         Category:
             label: 'Category'
-            class: App\Entity\Forum\Category
+            class: Frugu\Entity\Forum\Category
             list:
                 fields:
                     - { property: 'name', label: 'Name'}
@@ -59,7 +59,7 @@ easy_admin:
 
         Conversation:
             label: 'Conversation'
-            class: App\Entity\Forum\Conversation
+            class: Frugu\Entity\Forum\Conversation
             disabled_actions: ['new']
             list:
                 fields:

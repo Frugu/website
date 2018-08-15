@@ -9,3 +9,6 @@ build:
 
 docker-up:
 	docker-compose up
+
+php-bash:
+	docker-compose exec php sh

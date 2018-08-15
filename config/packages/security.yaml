@@ -2,7 +2,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         frugu_user:
-            id: app.auth.user_provider
+            id: frugu.auth.user_provider
 
     firewalls:
         secured_area:
@@ -15,7 +15,7 @@ security:
                 failure_path: "/login"
 
                 oauth_user_provider:
-                    service: app.auth.user_provider
+                    service: frugu.auth.user_provider
 
             logout:
                 path:   /logout
