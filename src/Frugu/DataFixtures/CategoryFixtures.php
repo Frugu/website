@@ -13,9 +13,11 @@ class CategoryFixtures extends Fixture
     public const MAX_LEVEL = 3;
 
     public const ROOT_CATEGORIES_COUNT = 3;
+
     public const ROOT_CATEGORIES_PREFIX = 'root-categories-';
 
     public const NON_ROOT_CATEGORIES_COUNT = 15;
+
     public const NON_ROOT_CATEGORIES_PREFIX = 'non-root-categories-';
 
     /**
@@ -35,7 +37,7 @@ class CategoryFixtures extends Fixture
 
             $categories[] = $category;
             $manager->persist($category);
-            $this->addReference(self::ROOT_CATEGORIES_PREFIX . $i, $category);
+            $this->addReference(self::ROOT_CATEGORIES_PREFIX.$i, $category);
             $level[$category->getId()->toString()] = 1;
         }
 
@@ -55,7 +57,7 @@ class CategoryFixtures extends Fixture
 
             $manager->persist($category);
             $categories[] = $category;
-            $this->addReference(self::NON_ROOT_CATEGORIES_PREFIX . $i, $category);
+            $this->addReference(self::NON_ROOT_CATEGORIES_PREFIX.$i, $category);
             $level[$category->getId()->toString()] = $level[$categories[$index]->getId()->toString()] + 1;
         }
 

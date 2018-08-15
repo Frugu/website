@@ -23,7 +23,7 @@ class ConversationReplyFixtures extends AbstractConversationFixtures implements 
 
         for ($i = 0; $i < self::REPLY_COUNT; ++$i) {
             /** @var Conversation $parent */
-            $parent = $this->getReference(ConversationFixtures::CONVERSATION_PREFIX . rand(0, ConversationFixtures::CONVERSATION_COUNT - 1));
+            $parent = $this->getReference(ConversationFixtures::CONVERSATION_PREFIX.rand(0, ConversationFixtures::CONVERSATION_COUNT - 1));
 
             $conversation = ConversationManager::create(
                 $parent->getName(),
@@ -36,7 +36,7 @@ class ConversationReplyFixtures extends AbstractConversationFixtures implements 
 
             /** @var \DateTime $createdAt */
             $createdAt = clone $parent->getCreatedAt();
-            $createdAt = $createdAt->add(new \DateInterval('PT' .rand(1, 720). 'H'));
+            $createdAt = $createdAt->add(new \DateInterval('PT'.rand(1, 720).'H'));
             $conversation->setCreatedAt($createdAt);
             $conversation->setUpdatedAt($createdAt);
 

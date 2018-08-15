@@ -16,7 +16,8 @@ abstract class AbstractConversationFixtures extends Fixture
         $random = rand(0, UserFixtures::USERS_COUNT - 1);
 
         /** @var User $user */
-        $user = $this->getReference(UserFixtures::USERS_PREFIX . $random);
+        $user = $this->getReference(UserFixtures::USERS_PREFIX.$random);
+
         return $user;
     }
 
@@ -25,7 +26,8 @@ abstract class AbstractConversationFixtures extends Fixture
         $random = rand(0, CategoryFixtures::NON_ROOT_CATEGORIES_COUNT - 1);
 
         /** @var Category $category */
-        $category = $this->getReference(CategoryFixtures::NON_ROOT_CATEGORIES_PREFIX . $random);
+        $category = $this->getReference(CategoryFixtures::NON_ROOT_CATEGORIES_PREFIX.$random);
+
         return $category;
     }
 }

@@ -31,9 +31,9 @@ class ForumRowGenerator
     /**
      * ForumGenerator constructor.
      *
-     * @param Environment $twig
+     * @param Environment           $twig
      * @param UrlGeneratorInterface $urlGenerator
-     * @param ConversationManager $conversationManager
+     * @param ConversationManager   $conversationManager
      */
     public function __construct(Environment $twig, UrlGeneratorInterface $urlGenerator, ConversationManager $conversationManager)
     {
@@ -92,12 +92,13 @@ class ForumRowGenerator
         if ($object instanceof Conversation) {
             return $this->fillWithConversation($object);
         }
+
         throw new \Exception('Can\'t use given object to fill a ForumRow.');
     }
 
     /**
      * @param Category $category
-     * @param bool $forceGroup
+     * @param bool     $forceGroup
      *
      * @return ForumRowTemplate
      *
@@ -126,9 +127,10 @@ class ForumRowGenerator
     {
         $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
 
-        $first = count($conversations). ' <i class="far fa-envelope"></i>';
+        $first = count($conversations).' <i class="far fa-envelope"></i>';
         $second = '//';
         $third = '//';
+
         return [$first, $second, $third];
     }
 
@@ -144,9 +146,10 @@ class ForumRowGenerator
         $links = [];
         foreach ($category->getChildren() as $child) {
             $links[] = $this->twig->render('forum/category/childLink.html.twig', [
-                'category' => $child
+                'category' => $child,
             ]);
         }
+
         return $links;
     }
 

@@ -10,6 +10,7 @@ use Faker\Factory;
 class ConversationFixtures extends AbstractConversationFixtures implements DependentFixtureInterface
 {
     public const CONVERSATION_COUNT = 1000;
+
     public const CONVERSATION_PREFIX = 'conversation-';
 
     /**
@@ -31,13 +32,13 @@ class ConversationFixtures extends AbstractConversationFixtures implements Depen
             );
 
             $date = clone $now;
-            $date = $date->sub(new \DateInterval('P' .rand(1, 365). 'D'));
+            $date = $date->sub(new \DateInterval('P'.rand(1, 365).'D'));
 
             $conversation->setCreatedAt($date);
             $conversation->setUpdatedAt($date);
 
             $manager->persist($conversation);
-            $this->addReference(self::CONVERSATION_PREFIX . $i, $conversation);
+            $this->addReference(self::CONVERSATION_PREFIX.$i, $conversation);
         }
 
         $manager->flush();

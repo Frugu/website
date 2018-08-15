@@ -22,6 +22,7 @@ class ForumController extends Controller
 
     /**
      * ForumController constructor.
+     *
      * @param ForumRowGenerator $forumRowGenerator
      */
     public function __construct(ForumRowGenerator $forumRowGenerator)
@@ -50,7 +51,7 @@ class ForumController extends Controller
      * @Route("/category/{slug}/{page}", name="category", requirements={"page"="\d+"})
      *
      * @param Category $category
-     * @param int $page
+     * @param int      $page
      *
      * @return Response
      *
@@ -62,7 +63,7 @@ class ForumController extends Controller
 
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create($categories),
-            'rows' => $this->forumRowGenerator->generate($categories)
+            'rows' => $this->forumRowGenerator->generate($categories),
         ]);
     }
 
@@ -77,7 +78,7 @@ class ForumController extends Controller
     {
         return $this->render('forum/conversation/conversation.html.twig', [
             'breadcrumb' => BreadcrumbManager::create([$conversation]),
-            'conversation' => $conversation
+            'conversation' => $conversation,
         ]);
     }
 }

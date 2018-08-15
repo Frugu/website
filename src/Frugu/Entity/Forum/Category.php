@@ -62,7 +62,7 @@ class Category
     private $children;
 
     /**
-     * Possible types: group, forum
+     * Possible types: group, forum.
      *
      * @ORM\Column(type="string", length=255)
      *
@@ -181,7 +181,7 @@ class Category
     /**
      * @return null|Category
      */
-    public function getParent(): ?Category
+    public function getParent(): ?self
     {
         return $this->parent;
     }
@@ -191,7 +191,7 @@ class Category
      *
      * @return Category
      */
-    public function setParent(?Category $parent): self
+    public function setParent(?self $parent): self
     {
         $this->parent = $parent;
 

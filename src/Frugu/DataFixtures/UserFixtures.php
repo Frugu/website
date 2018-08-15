@@ -10,6 +10,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class UserFixtures extends Fixture
 {
     public const USERS_COUNT = 2;
+
     public const USERS_PREFIX = 'user-';
 
     public function load(ObjectManager $manager)
@@ -35,7 +36,7 @@ class UserFixtures extends Fixture
                 $user->setIsAdmin(true);
             }
 
-            $this->addReference(self::USERS_PREFIX . $current, $user);
+            $this->addReference(self::USERS_PREFIX.$current, $user);
             $manager->persist($user);
             $manager->persist($userCharacter);
 

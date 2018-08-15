@@ -17,7 +17,7 @@ class AccountController extends Controller
     /**
      * @Route("/account", name="account")
      *
-     * @param Request        $request
+     * @param Request     $request
      * @param UserManager $userManager
      *
      * @return Response

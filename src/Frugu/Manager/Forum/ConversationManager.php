@@ -30,11 +30,11 @@ class ConversationManager extends AbstractManager
     /**
      * Create a Conversation based on given name & description.
      *
-     * @param string $name
-     * @param string $content
-     * @param User $author
+     * @param string   $name
+     * @param string   $content
+     * @param User     $author
      * @param Category $category
-     * @param string $type
+     * @param string   $type
      *
      * @return Conversation
      *

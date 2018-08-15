@@ -40,7 +40,7 @@ class Conversation
     private $slug = '';
 
     /**
-     * Possible types: normal, sticky, announcement, global, reply
+     * Possible types: normal, sticky, announcement, global, reply.
      *
      * @ORM\Column(type="string", length=255)
      *
@@ -177,11 +177,11 @@ class Conversation
      */
     public function setType(string $type): self
     {
-        if ($type === ConversationType::NORMAL ||
-            $type === ConversationType::STICKY ||
-            $type === ConversationType::ANNOUNCEMENT ||
-            $type === ConversationType::GLOBAL ||
-            $type === ConversationType::REPLY) {
+        if (ConversationType::NORMAL === $type ||
+            ConversationType::STICKY === $type ||
+            ConversationType::ANNOUNCEMENT === $type ||
+            ConversationType::GLOBAL === $type ||
+            ConversationType::REPLY === $type) {
             $this->type = $type;
 
             return $this;
@@ -303,7 +303,7 @@ class Conversation
      *
      * @return Conversation
      */
-    public function setParent(Conversation $parent): self
+    public function setParent(self $parent): self
     {
         $this->parent = $parent;
 
@@ -339,7 +339,7 @@ class Conversation
     {
         return 'Conversation "'.$this->getName().'"';
     }
-    
+
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
