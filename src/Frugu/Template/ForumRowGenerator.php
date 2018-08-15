@@ -44,122 +44,36 @@ class ForumRowGenerator
 
     /**
      * @param array $categories
-     * @param int $page
-     * @param int $limit
      *
-     * @return Paginator
+     * @return array
      *
      * @throws \Exception
      */
-    public function generate(array $categories, int $page = 1, int $limit = 20): Paginator
+    public function generate(array $categories): array
     {
-        $pages = [];
-        $currentPage = 0;
-        $hasNoLimit = $limit === 0;
-
-        /** @var Category $category */
-        foreach ($categories as $category) {
-            $childs = $category->getChildren();
-            $continue = true;
-
-            // fill with categories
-            do {
-                $pageElementOffset = 0;
-                $pageElementLimit = count($childs);
-
-                if (!$hasNoLimit && $pageElementLimit > $limit) {
-                    $pageElementLimit = $limit;
-                    ++$currentPage;
-                } else {
-                    $continue = false;
-                }
-
-                if (!isset($pages[$currentPage])) {
-                    $pages[$currentPage] = [];
-                }
-                $pages[$currentPage][] = [
-                    'type' => 'categoryChild',
-                    'offset' => $pageElementOffset,
-                    'limit' => $pageElementLimit
-                ];
-            } while ($continue);
-        }
-
-
-        echo '<pre>';
-
         $rows = [];
-        $count = 0;
-        $ignoredCount = 0;
-
-        $hasNoLimit = $limit === 0;
-        $offset = ($page - 1) * $limit;
-        $offsetEnd = $offset + $limit;
 
         /** @var Category $category */
         foreach ($categories as $category) {
             $rows[] = $this->fill($category, true);
-            ++$ignoredCount;
 
-            $hasHeader = false;
             $childs = $category->getChildren();
-            $countChilds = count($childs);
-
-            if ($hasNoLimit || Paginator::groupCheck($offset, $offsetEnd, $count, $countChilds)) {
-                foreach ($childs as $child) {
-                    if ($hasNoLimit || Paginator::exactCheck($offset, $offsetEnd, $count)) {
-                        $rows[] = $this->fill($child);
-                        $hasHeader = true;
-                    }
-                    ++$count;
-                }
-            } else {
-                $count += $countChilds;
+            foreach ($childs as $child) {
+                $rows[] = $this->fill($child);
             }
 
             $countConversations = $this->conversationManager->repository()->countCategoryConversations($category);
-            var_dump('count: ' .$countConversations);
-
-            if ($hasHeader && $countConversations > 0) {
+            if ($countConversations > 0) {
                 $rows[] = $this->fillWithSeparator('Conversations');
-                ++$ignoredCount;
             }
 
-            if ($hasNoLimit || Paginator::groupCheck($offset, $offsetEnd, $count, $countConversations)) {
-                $queryOffset = null;
-                $queryLimit = null;
-                if (!$hasNoLimit) {
-                    var_dump('offset: ' .$offset);
-
-                    $queryOffset = 0;
-                    $queryLimit = $limit - $count;
-                }
-
-                var_dump('queryOffset: ' .$queryOffset);
-                var_dump('queryLimit: ' .$queryLimit);
-
-                $conversations = $this->conversationManager->repository()->findCategoryConversations(
-                    $category,
-                    $queryOffset,
-                    $queryLimit
-                );
-                foreach ($conversations as $conversation) {
-                    if ($hasNoLimit || Paginator::exactCheck($offset, $offsetEnd, $count)) {
-                        $rows[] = $this->fill($conversation);
-                    }
-                    ++$count;
-                }
-            } else {
-                $count += $countConversations;
+            $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
+            foreach ($conversations as $conversation) {
+                $rows[] = $this->fill($conversation);
             }
         }
-        echo '</pre>';
 
-        return new Paginator($rows, $count, $offset, $limit, function (int $page) use ($categories) {
-            /** @var Category $category */
-            $category = current($categories);
-            return $this->urlGenerator->generate('category', ['slug' => $category->getSlug(), 'page' => $page]);
-        });
+        return $rows;
     }
 
     /**

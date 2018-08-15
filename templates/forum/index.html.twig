@@ -4,11 +4,10 @@
     <div class="row">
         <div class="col">
             <ul class="list-group">
-                {% for row in paginator.list %}
+                {% for row in rows %}
                     {% include 'forum/' ~ row.type ~ '/row.html.twig' with {'row': row} only %}
                 {% endfor %}
             </ul>
         </div>
     </div>
-    {% include 'forum/paginator.html.twig' with {'paginator': paginator} only %}
 {% endblock %}

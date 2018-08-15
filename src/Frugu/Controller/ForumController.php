@@ -42,7 +42,7 @@ class ForumController extends Controller
     {
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create(),
-            'paginator' => $this->forumRowGenerator->generate($categoryManager->repository()->findAllRootCategories(), 1, 0)
+            'rows' => $this->forumRowGenerator->generate($categoryManager->repository()->findAllRootCategories()),
         ]);
     }
 
@@ -62,7 +62,7 @@ class ForumController extends Controller
 
         return $this->render('forum/index.html.twig', [
             'breadcrumb' => BreadcrumbManager::create($categories),
-            'paginator' => $this->forumRowGenerator->generate($categories, $page)
+            'rows' => $this->forumRowGenerator->generate($categories)
         ]);
     }
 
