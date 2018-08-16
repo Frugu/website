@@ -29,3 +29,10 @@ services:
 
     frugu.auth.user_provider:
         class: Frugu\Entity\Auth\UserProvider
+
+    gedmo.listener.sluggable:
+        class: Gedmo\Sluggable\SluggableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]

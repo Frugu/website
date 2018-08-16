@@ -9,7 +9,6 @@ use Frugu\Entity\Forum\Category;
 use Frugu\Entity\Forum\Conversation;
 use Frugu\Manager\AbstractManager;
 use Frugu\Repository\Forum\ConversationRepository;
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -44,7 +43,6 @@ class ConversationManager extends AbstractManager
     {
         $conversation = new Conversation();
         $conversation->setName($name);
-        $conversation->setSlug((new Slugify())->slugify($name));
         $conversation->setContent($content);
         $conversation->setAuthor($author);
         $conversation->setCategory($category);

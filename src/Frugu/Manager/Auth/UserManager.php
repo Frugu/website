@@ -8,7 +8,6 @@ use Frugu\Entity\Auth\User;
 use Frugu\Entity\Auth\UserCharacter;
 use Frugu\Manager\AbstractManager;
 use Frugu\Repository\Auth\UserRepository;
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -41,7 +40,6 @@ class UserManager extends AbstractManager
 
         $user = new User();
         $user->setUsername($characterName);
-        $user->setSlug((new Slugify())->slugify($characterName));
         $userCharacter->setUser($user);
 
         return $user;

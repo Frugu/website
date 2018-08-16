@@ -7,6 +7,7 @@ namespace Frugu\Entity\Forum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -34,11 +35,12 @@ class Category
     private $name = '';
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=128)
      *
      * @var string
      */
-    private $slug = '';
+    private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)

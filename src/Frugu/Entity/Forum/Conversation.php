@@ -6,6 +6,7 @@ namespace Frugu\Entity\Forum;
 
 use Frugu\Entity\Auth\User;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -33,11 +34,12 @@ class Conversation
     private $name = '';
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=128)
      *
      * @var string
      */
-    private $slug = '';
+    private $slug;
 
     /**
      * Possible types: normal, sticky, announcement, global, reply.

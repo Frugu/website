@@ -7,7 +7,6 @@ namespace Frugu\Manager\Forum;
 use Frugu\Entity\Forum\Category;
 use Frugu\Manager\AbstractManager;
 use Frugu\Repository\Forum\CategoryRepository;
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -39,7 +38,6 @@ class CategoryManager extends AbstractManager
     {
         $category = new Category();
         $category->setName($name);
-        $category->setSlug((new Slugify())->slugify($name));
         $category->setDescription($description);
 
         return $category;
