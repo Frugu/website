@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="t_user")
  * @ORM\Entity(repositoryClass="Frugu\Repository\Auth\UserRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
@@ -68,6 +67,7 @@ class User implements UserInterface
     protected $isAdmin = false;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface
@@ -75,6 +75,7 @@ class User implements UserInterface
     protected $createdAt;
 
     /**
+     * @Gedmo\Timestampable(on="change", field={"username"})
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface
@@ -82,6 +83,7 @@ class User implements UserInterface
     protected $usernameUpdatedAt;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface
@@ -104,12 +106,6 @@ class User implements UserInterface
     {
         $this->characters = new ArrayCollection();
         $this->conversations = new ArrayCollection();
-
-        $this->setCreatedAt(new \DateTimeImmutable());
-        if (null === $this->getUpdatedAt()) {
-            $this->setUpdatedAt(new \DateTimeImmutable());
-            $this->setUsernameUpdatedAt(new \DateTimeImmutable());
-        }
     }
 
     /**
@@ -305,15 +301,6 @@ class User implements UserInterface
     public function equals(UserInterface $user): bool
     {
         return $user->getUsername() === $this->getUsername();
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function updateModifiedDatetime(): void
-    {
-        $this->setUpdatedAt(new \DateTime());
     }
 
     /**

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Frugu\Entity\Auth;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="t_user_character")
  * @ORM\Entity(repositoryClass="Frugu\Repository\Auth\UserCharacterRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class UserCharacter
 {
@@ -46,6 +46,7 @@ class UserCharacter
     private $main;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
@@ -53,22 +54,12 @@ class UserCharacter
     protected $createdAt;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
      */
     protected $updatedAt;
-
-    /**
-     * UserCharacter constructor.
-     */
-    public function __construct()
-    {
-        $this->setCreatedAt(new \DateTime());
-        if (null === $this->getUpdatedAt()) {
-            $this->setUpdatedAt(new \DateTime());
-        }
-    }
 
     /**
      * @return UuidInterface
@@ -196,14 +187,5 @@ class UserCharacter
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function updateModifiedDatetime()
-    {
-        $this->setUpdatedAt(new \DateTime());
     }
 }

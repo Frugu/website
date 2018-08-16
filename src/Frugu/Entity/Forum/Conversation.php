@@ -12,7 +12,6 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Table(name="t_conversation")
  * @ORM\Entity(repositoryClass="Frugu\Repository\Forum\ConversationRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class Conversation
 {
@@ -81,6 +80,7 @@ class Conversation
     private $parent;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface
@@ -88,6 +88,7 @@ class Conversation
     private $createdAt;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface
@@ -100,19 +101,6 @@ class Conversation
      * @var ?\DateTimeInterface
      */
     private $deletedAt = null;
-
-    /**
-     * Conversation constructor.
-     *
-     * @throws \Exception
-     */
-    public function __construct()
-    {
-        $this->setCreatedAt(new \DateTimeImmutable());
-        if (null === $this->getUpdatedAt()) {
-            $this->setUpdatedAt(new \DateTimeImmutable());
-        }
-    }
 
     /**
      * @return UuidInterface
@@ -340,14 +328,5 @@ class Conversation
     public function __toString(): string
     {
         return 'Conversation "'.$this->getName().'"';
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function updateModifiedDatetime(): void
-    {
-        $this->setUpdatedAt(new \DateTime());
     }
 }

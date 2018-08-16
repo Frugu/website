@@ -13,7 +13,6 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Table(name="t_category")
  * @ORM\Entity(repositoryClass="Frugu\Repository\Forum\CategoryRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class Category
 {
@@ -73,6 +72,7 @@ class Category
     private $type = CategoryType::FORUM;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface
@@ -80,6 +80,7 @@ class Category
     protected $createdAt;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface
@@ -95,11 +96,6 @@ class Category
     {
         $this->children = new ArrayCollection();
         $this->conversations = new ArrayCollection();
-
-        $this->setCreatedAt(new \DateTimeImmutable());
-        if (null === $this->getUpdatedAt()) {
-            $this->setUpdatedAt(new \DateTimeImmutable());
-        }
     }
 
     /**
@@ -270,14 +266,5 @@ class Category
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function updateModifiedDatetime(): void
-    {
-        $this->setUpdatedAt(new \DateTime());
     }
 }
