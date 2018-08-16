@@ -65,6 +65,7 @@ class Conversation
     private $category;
 
     /**
+     * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="Frugu\Entity\Auth\User", inversedBy="conversations")
      * @ORM\JoinColumn(nullable=false)
      *
