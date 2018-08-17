@@ -2,8 +2,8 @@
 
 namespace Frugu\DataFixtures;
 
+use Frugu\Entity\Auth\User;
 use Frugu\Entity\Auth\UserCharacter;
-use Frugu\Manager\Auth\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -30,7 +30,10 @@ class UserFixtures extends Fixture
             $userCharacter->setCharacterId($characterId);
             $userCharacter->setCharacterName($characterName);
             $userCharacter->setMain(true);
-            $user = UserManager::createFromCharacter($userCharacter);
+
+            $user = new User();
+            $user->setUsername($userCharacter->getCharacterName());
+            $userCharacter->setUser($user);
 
             if (in_array($characterId, $admins)) {
                 $user->setIsAdmin(true);

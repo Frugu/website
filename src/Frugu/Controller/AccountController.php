@@ -4,8 +4,8 @@ namespace Frugu\Controller;
 
 use Frugu\Entity\Auth\User;
 use Frugu\Form\UserType;
-use Frugu\Manager\Auth\UserManager;
 use Frugu\Manager\Forum\BreadcrumbManager;
+use Frugu\Repository\Auth\UserRepository;
 use Frugu\Repository\Exception\UnsupportedClassException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +17,14 @@ class AccountController extends Controller
     /**
      * @Route("/account", name="account")
      *
-     * @param Request     $request
-     * @param UserManager $userManager
+     * @param Request        $request
+     * @param UserRepository $userRepository
      *
      * @return Response
      *
      * @throws UnsupportedClassException
      */
-    public function account(Request $request, UserManager $userManager)
+    public function account(Request $request, UserRepository $userRepository)
     {
         $form = $this->createForm(UserType::class, $this->getUser());
         $form->handleRequest($request);
@@ -32,7 +32,7 @@ class AccountController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $form->getData();
-            $userManager->repository()->save($user);
+            $userRepository->save($user);
 
             $this->addFlash('success', 'Account updated.');
         }

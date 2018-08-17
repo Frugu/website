@@ -18,6 +18,7 @@ final class Version20180709111149 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE t_user ADD username_updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL');
+        $this->addSql('ALTER TABLE t_user ALTER username_updated_at DROP NOT NULL');
     }
 
     public function down(Schema $schema): void

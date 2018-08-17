@@ -76,7 +76,7 @@ class User implements UserInterface
 
     /**
      * @Gedmo\Timestampable(on="change", field={"username"})
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      *
      * @var \DateTimeInterface
      */
@@ -99,8 +99,6 @@ class User implements UserInterface
 
     /**
      * User constructor.
-     *
-     * @throws \Exception
      */
     public function __construct()
     {
@@ -146,13 +144,10 @@ class User implements UserInterface
      * @param string $username
      *
      * @return User
-     *
-     * @throws \Exception
      */
     public function setUsername(string $username): self
     {
         $this->username = $username;
-        $this->setUsernameUpdatedAt(new \DateTimeImmutable());
 
         return $this;
     }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Frugu\Entity\Auth;
 
-use Frugu\Manager\Auth\UserManager;
 use Frugu\Repository\Auth\UserCharacterRepository;
 use Frugu\Repository\Auth\UserRepository;
 use Doctrine\Common\Util\ClassUtils;
+use Frugu\Repository\Exception\UnsupportedClassException;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -54,6 +54,8 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
 
     /**
      * {@inheritdoc}
+     *
+     * @throws UnsupportedClassException
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
@@ -71,7 +73,10 @@ final class UserProvider implements UserProviderInterface, OAuthAwareUserProvide
             $userCharacter->setCharacterName($data['CharacterName']);
             $userCharacter->setMain(false);
 
-            $user = UserManager::createFromCharacter($userCharacter);
+            $user = new User();
+            $user->setUsername($userCharacter->getCharacterName());
+            $userCharacter->setUser($user);
+
             $this->userRepository->save($user);
             $this->userCharacterRepository->save($userCharacter);
         } else {
