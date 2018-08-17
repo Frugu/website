@@ -2,8 +2,8 @@
 
 namespace Frugu\DataFixtures;
 
+use Frugu\Entity\Forum\Category;
 use Frugu\Entity\Forum\CategoryType;
-use Frugu\Manager\Forum\CategoryManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
@@ -32,7 +32,9 @@ class CategoryFixtures extends Fixture
         $level = [];
 
         for ($i = 0; $i < self::ROOT_CATEGORIES_COUNT; ++$i) {
-            $category = CategoryManager::create($faker->sentence(3), $faker->text(64));
+            $category = new Category();
+            $category->setName($faker->sentence(3));
+            $category->setDescription($faker->text(64));
             $category->setType(CategoryType::GROUP);
 
             $categories[] = $category;
@@ -42,7 +44,9 @@ class CategoryFixtures extends Fixture
         }
 
         for ($i = 0; $i < self::NON_ROOT_CATEGORIES_COUNT; ++$i) {
-            $category = CategoryManager::create($faker->sentence(3), $faker->text(64));
+            $category = new Category();
+            $category->setName($faker->sentence(3));
+            $category->setDescription($faker->text(64));
 
             $index = null;
             do {

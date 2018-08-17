@@ -3,8 +3,8 @@
 namespace Frugu\Controller;
 
 use Frugu\Entity\Auth\User;
+use Frugu\Factory\Forum\BreadcrumbFactory;
 use Frugu\Form\UserType;
-use Frugu\Manager\Forum\BreadcrumbManager;
 use Frugu\Repository\Auth\UserRepository;
 use Frugu\Repository\Exception\UnsupportedClassException;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +17,7 @@ class AccountController extends Controller
     /**
      * @Route("/account", name="account")
      *
+     * @param BreadcrumbFactory $breadcrumbFactory
      * @param Request        $request
      * @param UserRepository $userRepository
      *
@@ -24,7 +25,7 @@ class AccountController extends Controller
      *
      * @throws UnsupportedClassException
      */
-    public function account(Request $request, UserRepository $userRepository)
+    public function account(BreadcrumbFactory $breadcrumbFactory, Request $request, UserRepository $userRepository)
     {
         $form = $this->createForm(UserType::class, $this->getUser());
         $form->handleRequest($request);
@@ -38,7 +39,7 @@ class AccountController extends Controller
         }
 
         return $this->render('account/account.html.twig', [
-            'breadcrumb' => BreadcrumbManager::create([[
+            'breadcrumb' => $breadcrumbFactory->create([[
                 'name' => 'Account',
                 'url' => 'account',
             ]]),
@@ -48,15 +49,19 @@ class AccountController extends Controller
 
     /**
      * @Route("/account/characters", name="account_characters")
+     *
+     * @param BreadcrumbFactory $breadcrumbFactory
+     *
+     * @return Response
      */
-    public function characters()
+    public function characters(BreadcrumbFactory $breadcrumbFactory)
     {
         /** @var User $user */
         $user = $this->getUser();
         $characters = $user->getCharacters();
 
         return $this->render('account/characters.html.twig', [
-            'breadcrumb' => BreadcrumbManager::create([
+            'breadcrumb' => $breadcrumbFactory->create([
                 [
                     'name' => 'Account',
                     'url' => 'account',

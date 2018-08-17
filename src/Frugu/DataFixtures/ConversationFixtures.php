@@ -2,7 +2,7 @@
 
 namespace Frugu\DataFixtures;
 
-use Frugu\Manager\Forum\ConversationManager;
+use Frugu\Entity\Forum\Conversation;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
@@ -24,12 +24,11 @@ class ConversationFixtures extends AbstractConversationFixtures implements Depen
 
         $now = new \DateTimeImmutable();
         for ($i = 0; $i < self::CONVERSATION_COUNT; ++$i) {
-            $conversation = ConversationManager::create(
-                $faker->sentence,
-                $faker->text,
-                $this->oneUser(),
-                $this->oneCategory()
-            );
+            $conversation = new Conversation();
+            $conversation->setName($faker->sentence);
+            $conversation->setContent($faker->text);
+            $conversation->setAuthor($this->oneUser());
+            $conversation->setCategory($this->oneCategory());
 
             $date = clone $now;
             $date = $date->sub(new \DateInterval('P'.rand(1, 365).'D'));

@@ -7,7 +7,7 @@ namespace Frugu\Template;
 use Frugu\Entity\Forum\Category;
 use Frugu\Entity\Forum\CategoryType;
 use Frugu\Entity\Forum\Conversation;
-use Frugu\Manager\Forum\ConversationManager;
+use Frugu\Repository\Forum\ConversationRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
@@ -24,22 +24,22 @@ class ForumRowGenerator
     protected $twig;
 
     /**
-     * @var ConversationManager
+     * @var ConversationRepository
      */
-    protected $conversationManager;
+    protected $conversationRepository;
 
     /**
      * ForumGenerator constructor.
      *
-     * @param Environment           $twig
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param ConversationManager   $conversationManager
+     * @param Environment            $twig
+     * @param UrlGeneratorInterface  $urlGenerator
+     * @param ConversationRepository $conversationRepository
      */
-    public function __construct(Environment $twig, UrlGeneratorInterface $urlGenerator, ConversationManager $conversationManager)
+    public function __construct(Environment $twig, UrlGeneratorInterface $urlGenerator, ConversationRepository $conversationRepository)
     {
         $this->twig = $twig;
         $this->urlGenerator = $urlGenerator;
-        $this->conversationManager = $conversationManager;
+        $this->conversationRepository = $conversationRepository;
     }
 
     /**
@@ -62,12 +62,12 @@ class ForumRowGenerator
                 $rows[] = $this->fill($child);
             }
 
-            $countConversations = $this->conversationManager->repository()->countCategoryConversations($category);
+            $countConversations = $this->conversationRepository->countCategoryConversations($category);
             if ($countConversations > 0) {
                 $rows[] = $this->fillWithSeparator('Conversations');
             }
 
-            $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
+            $conversations = $this->conversationRepository->findCategoryConversations($category);
             foreach ($conversations as $conversation) {
                 $rows[] = $this->fill($conversation);
             }
@@ -125,7 +125,7 @@ class ForumRowGenerator
      */
     protected function makeCategoryDetails(Category $category): array
     {
-        $conversations = $this->conversationManager->repository()->findCategoryConversations($category);
+        $conversations = $this->conversationRepository->findCategoryConversations($category);
 
         $first = count($conversations).' <i class="far fa-envelope"></i>';
         $second = '//';

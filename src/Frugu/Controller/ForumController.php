@@ -6,9 +6,9 @@ namespace Frugu\Controller;
 
 use Frugu\Entity\Forum\Category;
 use Frugu\Entity\Forum\Conversation;
+use Frugu\Factory\Forum\BreadcrumbFactory;
+use Frugu\Repository\Forum\CategoryRepository;
 use Frugu\Template\ForumRowGenerator;
-use Frugu\Manager\Forum\BreadcrumbManager;
-use Frugu\Manager\Forum\CategoryManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,23 +33,25 @@ class ForumController extends Controller
     /**
      * @Route("/", name="home")
      *
-     * @param CategoryManager $categoryManager
+     * @param CategoryRepository $categoryRepository
+     * @param BreadcrumbFactory $breadcrumbFactory
      *
      * @return Response
      *
      * @throws \Exception
      */
-    public function index(CategoryManager $categoryManager)
+    public function index(CategoryRepository $categoryRepository, BreadcrumbFactory $breadcrumbFactory)
     {
         return $this->render('forum/index.html.twig', [
-            'breadcrumb' => BreadcrumbManager::create(),
-            'rows' => $this->forumRowGenerator->generate($categoryManager->repository()->findAllRootCategories()),
+            'breadcrumb' => $breadcrumbFactory->create(),
+            'rows' => $this->forumRowGenerator->generate($categoryRepository->findAllRootCategories()),
         ]);
     }
 
     /**
      * @Route("/category/{slug}/{page}", name="category", requirements={"page"="\d+"})
      *
+     * @param BreadcrumbFactory $breadcrumbFactory
      * @param Category $category
      * @param int      $page
      *
@@ -57,12 +59,12 @@ class ForumController extends Controller
      *
      * @throws \Exception
      */
-    public function forum(Category $category, int $page = 1)
+    public function forum(BreadcrumbFactory $breadcrumbFactory, Category $category, int $page = 1)
     {
         $categories = [$category];
 
         return $this->render('forum/index.html.twig', [
-            'breadcrumb' => BreadcrumbManager::create($categories),
+            'breadcrumb' => $breadcrumbFactory->create($categories),
             'rows' => $this->forumRowGenerator->generate($categories),
         ]);
     }
@@ -70,14 +72,15 @@ class ForumController extends Controller
     /**
      * @Route("/conversation/{id}", name="conversation")
      *
+     * @param BreadcrumbFactory $breadcrumbFactory
      * @param Conversation $conversation
      *
      * @return Response
      */
-    public function conversation(Conversation $conversation)
+    public function conversation(BreadcrumbFactory $breadcrumbFactory, Conversation $conversation)
     {
         return $this->render('forum/conversation/conversation.html.twig', [
-            'breadcrumb' => BreadcrumbManager::create([$conversation]),
+            'breadcrumb' => $breadcrumbFactory->create([$conversation]),
             'conversation' => $conversation,
         ]);
     }

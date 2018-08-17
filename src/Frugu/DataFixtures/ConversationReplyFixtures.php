@@ -3,7 +3,6 @@
 namespace Frugu\DataFixtures;
 
 use Frugu\Entity\Forum\Conversation;
-use Frugu\Manager\Forum\ConversationManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
@@ -25,12 +24,11 @@ class ConversationReplyFixtures extends AbstractConversationFixtures implements 
             /** @var Conversation $parent */
             $parent = $this->getReference(ConversationFixtures::CONVERSATION_PREFIX.rand(0, ConversationFixtures::CONVERSATION_COUNT - 1));
 
-            $conversation = ConversationManager::create(
-                $parent->getName(),
-                $faker->text,
-                $this->oneUser(),
-                $parent->getCategory()
-            );
+            $conversation = new Conversation();
+            $conversation->setName($parent->getName());
+            $conversation->setContent($faker->text);
+            $conversation->setAuthor($this->oneUser());
+            $conversation->setCategory($parent->getCategory());
             $conversation->setType('reply');
             $conversation->setParent($parent);
 
